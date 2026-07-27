@@ -1,17 +1,22 @@
-// ============================================================
-// PALMIERE STUDIO – Sidebar de Navegação
-// ============================================================
-
 import React from 'react';
+import { 
+  LayoutDashboard, 
+  CalendarClock, 
+  CalendarDays, 
+  BookOpen, 
+  GraduationCap, 
+  LineChart, 
+  Settings 
+} from 'lucide-react';
 
 const ABAS = [
-  { id: 'hoje',         label: 'Hoje',           icone: '🏠' },
-  { id: 'prazos',       label: 'Prazos',          icone: '📋' },
-  { id: 'calendario',   label: 'Calendário',      icone: '📅' },
-  { id: 'planos-aula',  label: 'Planos de Aula',  icone: '📚' },
-  { id: 'planos-estudo',label: 'Planos de Estudo',icone: '📖' },
-  { id: 'progresso',    label: 'Progresso',       icone: '📊' },
-  { id: 'config',       label: 'Configurações',   icone: '⚙️' },
+  { id: 'hoje', label: 'Hoje', Icon: LayoutDashboard },
+  { id: 'prazos', label: 'Prazos', Icon: CalendarClock },
+  { id: 'calendario', label: 'Calendário', Icon: CalendarDays },
+  { id: 'planos-aula', label: 'Planos de Aula', Icon: BookOpen },
+  { id: 'planos-estudo', label: 'Planos de Estudo', Icon: GraduationCap },
+  { id: 'progresso', label: 'Progresso', Icon: LineChart },
+  { id: 'config', label: 'Configurações', Icon: Settings },
 ];
 
 export default function Sidebar({ abaAtiva, onChange }) {
@@ -22,19 +27,19 @@ export default function Sidebar({ abaAtiva, onChange }) {
         <span className="logo-studio">Studio</span>
       </div>
       <nav className="sidebar-nav">
-        {ABAS.map(aba => (
+        {ABAS.map(({ id, label, Icon }) => (
           <button
-            key={aba.id}
-            className={`sidebar-item ${abaAtiva === aba.id ? 'ativo' : ''}`}
-            onClick={() => onChange(aba.id)}
+            key={id}
+            className={`sidebar-item ${abaAtiva === id ? 'ativo' : ''}`}
+            onClick={() => onChange(id)}
           >
-            <span className="sidebar-icone">{aba.icone}</span>
-            <span className="sidebar-label">{aba.label}</span>
+            <Icon className="sidebar-icone" size={18} />
+            <span className="sidebar-label">{label}</span>
           </button>
         ))}
       </nav>
       <div className="sidebar-footer">
-        <span>2026 · 1º Semestre</span>
+        <span>2026 · 2º Semestre</span>
       </div>
     </aside>
   );
