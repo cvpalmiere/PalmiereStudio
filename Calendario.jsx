@@ -1,10 +1,7 @@
-// ============================================================
-// PALMIERE STUDIO – Aba Calendário
-// ============================================================
-
 import React, { useState, useMemo } from 'react';
 import { AULAS } from './dados.js';
 import { getDisciplina, formatDateISO, gerarBlocoManha, tipoLabel, corBloco } from './plano.js';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEMANA = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
@@ -12,7 +9,7 @@ const DIAS_SEMANA = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 export default function Calendario({ eventos, edicoesManha }) {
   const hoje = new Date();
   const [ano, setAno] = useState(hoje.getFullYear());
-  const [mes, setMes] = useState(hoje.getMonth()); // 0-indexed
+  const [mes, setMes] = useState(hoje.getMonth());
   const [diaSelecionado, setDiaSelecionado] = useState(null);
 
   const diasDoMes = useMemo(() => {
@@ -20,12 +17,10 @@ export default function Calendario({ eventos, edicoesManha }) {
     const primeiroDia = new Date(ano, mes, 1);
     const ultimoDia = new Date(ano, mes + 1, 0);
 
-    // Dia da semana do 1º dia (0=dom, convertemos para seg=0)
     let dowInicio = primeiroDia.getDay();
-    if (dowInicio === 0) dowInicio = 7; // domingo -> 7
-    dowInicio -= 1; // seg=0, ter=1...
+    if (dowInicio === 0) dowInicio = 7;
+    dowInicio -= 1;
 
-    // Células vazias no início
     for (let i = 0; i < dowInicio; i++) resultado.push(null);
 
     for (let d = 1; d <= ultimoDia.getDate(); d++) {
@@ -61,15 +56,15 @@ export default function Calendario({ eventos, edicoesManha }) {
   return (
     <div className="aba-container">
       <div className="aba-header">
-        <h1 className="aba-titulo">📅 Calendário</h1>
+        <h1 className="aba-titulo">Calendário</h1>
       </div>
 
       <div className="cal-layout">
         <div className="cal-principal">
           <div className="cal-nav">
-            <button className="btn-outline" onClick={() => navMes(-1)}>‹</button>
+            <button className="btn-outline" onClick={() => navMes(-1)}><ChevronLeft size={18} /></button>
             <h2 className="cal-mes-titulo">{MESES[mes]} {ano}</h2>
-            <button className="btn-outline" onClick={() => navMes(1)}>›</button>
+            <button className="btn-outline" onClick={() => navMes(1)}><ChevronRight size={18} /></button>
           </div>
 
           <div className="cal-grid">
@@ -77,7 +72,7 @@ export default function Calendario({ eventos, edicoesManha }) {
               <div key={d} className="cal-header-dia">{d}</div>
             ))}
             {diasDoMes.map((item, i) => {
-              if (!item) return <div key={`vazio-${i}`} />;
+              if (!item) return <div key={`vazio-${i}`} />
               const isHoje = item.iso === hojIso;
               const isSelecionado = item.iso === diaSelecionado;
               const isWeekend = item.dow === 0 || item.dow === 6;
@@ -119,12 +114,11 @@ export default function Calendario({ eventos, edicoesManha }) {
           </div>
 
           <div className="cal-legenda">
-            <span className="legenda-item"><span className="cal-ponto" style={{ background: '#4A9EFF' }} /> Evento avaliativo</span>
-            <span className="legenda-item"><span className="cal-ponto" style={{ background: '#6FCF9788' }} /> Aula</span>
+            <span className="legenda-item"><span className="cal-ponto" style={{ background: '#8B1A2B' }} /> Evento avaliativo</span>
+            <span className="legenda-item"><span className="cal-ponto" style={{ background: '#6B2A30' }} /> Aula</span>
           </div>
         </div>
 
-        {/* Painel lateral do dia selecionado */}
         {diaSelecionado && diaInfo && (
           <div className="cal-detalhe card">
             <h3 className="cal-detalhe-titulo">
@@ -133,13 +127,13 @@ export default function Calendario({ eventos, edicoesManha }) {
 
             {diaInfo.aulas.length > 0 && (
               <div className="cal-secao">
-                <p className="cal-secao-label">🎓 Aulas</p>
+                <p className="cal-secao-label">Aulas</p>
                 {diaInfo.aulas.map(a => {
                   const disc = getDisciplina(a.disciplinaId);
                   return (
                     <div key={a.id} className="cal-item-aula" style={{ borderLeft: `3px solid ${disc?.cor}` }}>
                       <strong>{disc?.nome}</strong> – {a.tema}
-                      <p style={{ fontSize: 13, color: '#A0A0A0', margin: '4px 0 0' }}>{a.conteudo}</p>
+                      <p style={{ fontSize: 13, color: '#A88085', margin: '4px 0 0' }}>{a.conteudo}</p>
                     </div>
                   );
                 })}
@@ -148,14 +142,14 @@ export default function Calendario({ eventos, edicoesManha }) {
 
             {diaInfo.evs.length > 0 && (
               <div className="cal-secao">
-                <p className="cal-secao-label">⚠️ Eventos avaliativos</p>
+                <p className="cal-secao-label">Eventos avaliativos</p>
                 {diaInfo.evs.map(ev => {
                   const disc = getDisciplina(ev.disciplinaId);
                   return (
                     <div key={ev.id} className="cal-item-ev">
                       <span className="cal-ponto" style={{ background: disc?.cor }} />
                       <span>{ev.titulo}</span>
-                      {ev.concluido && <span className="tag-concluido" style={{ marginLeft: 6 }}>✓</span>}
+                      {ev.concluido && <span className="tag-concluido" style={{ marginLeft: 6 }}>Concluído</span>}
                     </div>
                   );
                 })}
@@ -163,12 +157,12 @@ export default function Calendario({ eventos, edicoesManha }) {
             )}
 
             <div className="cal-secao">
-              <p className="cal-secao-label">☀️ Estudo da manhã</p>
+              <p className="cal-secao-label">Estudo da manhã</p>
               <div className="cal-item-manha" style={{ borderLeft: `3px solid ${corBloco(diaInfo.manha.tipo)}` }}>
                 <strong style={{ color: corBloco(diaInfo.manha.tipo) }}>
                   {tipoLabel(diaInfo.manha.tipo)}
                 </strong>
-                <p style={{ margin: '4px 0 0', color: '#C0C0C0', fontSize: 13 }}>
+                <p style={{ margin: '4px 0 0', color: '#C9A8AC', fontSize: 13 }}>
                   {diaInfo.manha.conteudo}
                 </p>
               </div>
