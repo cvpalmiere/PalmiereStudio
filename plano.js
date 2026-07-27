@@ -1,7 +1,3 @@
-// ============================================================
-// PALMIERE STUDIO – UTILS E GERAÇÃO DE PLANO DE ESTUDOS
-// ============================================================
-
 import { AULAS, EVENTOS_INICIAIS, DISCIPLINAS } from './dados.js';
 
 // ── Formatação de datas ──────────────────────────────────────
@@ -40,7 +36,7 @@ export function hojeISO() {
   return formatDateISO(new Date());
 }
 
-// ── Recuperar dados das disciplinas ─────────────────────────
+// ── Recuperar dados ─────────────────────────────────────────
 
 export function getDisciplina(id) {
   return DISCIPLINAS.find(d => d.id === id);
@@ -53,8 +49,6 @@ export function getAulasDia(dateStr) {
 export function getAulasDisciplina(discId) {
   return AULAS.filter(a => a.disciplinaId === discId).sort((a, b) => a.data.localeCompare(b.data));
 }
-
-// ── Eventos (lidos do estado, não direto dos dados) ─────────
 
 export function getEventosOrdenados(eventos) {
   return [...eventos].sort((a, b) => a.data.localeCompare(b.data));
@@ -93,32 +87,10 @@ export function gerarBlocoManha(dateStr, eventos) {
   const date = parseDate(dateStr);
   const diaSemana = date.getDay();
 
-  if (diaSemana === 1) {
-    const eventosEad = eventos.filter(
-      e => !e.concluido && (e.disciplinaId === 'boot' || e.disciplinaId === 'fund')
-    );
-    const urgente = eventosEad.find(e => {
-      const diff = diasRestantesStr(dateStr, e.data);
-      return diff >= 0 && diff <= 7;
-    });
+  // Já não temos mais EAD (Bootcamp/Fundamentos) no 2º semestre
+  // Todas as disciplinas são presenciais
 
-    if (urgente) {
-      const disc = getDisciplina(urgente.disciplinaId);
-      return {
-        tipo: urgente.tipo === 'prova' ? 'prova' : 'trabalho',
-        conteudo: `Preparação para ${urgente.titulo} (${disc.nome})`,
-        eventoId: urgente.id,
-      };
-    }
-
-    const semana = getWeekNumber(date);
-    const disc = semana % 2 === 1 ? 'Bootcamp I' : 'Fundamentos de Engenharia';
-    return {
-      tipo: 'ead',
-      conteudo: `Estudo autônomo – ${disc} (1h cada disciplina EAD)`,
-    };
-  }
-
+  // 1. Prioridade máxima: provas em até 7 dias
   const eventosProva = eventos.filter(e => {
     if (e.concluido || e.tipo !== 'prova') return false;
     const diff = diasRestantesStr(dateStr, e.data);
@@ -146,6 +118,7 @@ export function gerarBlocoManha(dateStr, eventos) {
     };
   }
 
+  // 2. Trabalhos/seminários em até 7 dias (usando prioridadeEstudo)
   const eventosTrabalho = eventos.filter(e => {
     if (e.concluido || e.tipo === 'prova') return false;
     const alvoDate = e.prioridadeEstudo || e.data;
@@ -164,6 +137,7 @@ export function gerarBlocoManha(dateStr, eventos) {
     };
   }
 
+  // 3. Aula no dia → pré-aula
   const aula = AULAS.find(a => a.data === dateStr);
   if (aula) {
     const disc = getDisciplina(aula.disciplinaId);
@@ -174,15 +148,69 @@ export function gerarBlocoManha(dateStr, eventos) {
     };
   }
 
+  // 4. Fallback
   return {
     tipo: 'livre',
     conteudo: 'Revisão geral ou leitura complementar',
   };
 }
 
+// ── Estudo noturno (sextas) ──────────────────────────────────
+
+export function gerarBlocoNoturno(dateStr, eventos) {
+  const date = parseDate(dateStr);
+  const diaSemana = date.getDay();
+
+  // Só funciona nas sextas (dia 5)
+  if (diaSemana !== 5) return null;
+
+  // Verifica se tem prova próxima (para sugerir revisão)
+  const eventosProva = eventos.filter(e => {
+    if (e.concluido || e.tipo !== 'prova') return false;
+    const diff = diasRestantesStr(dateStr, e.data);
+    return diff >= 0 && diff <= 7;
+  }).sort((a, b) => a.data.localeCompare(b.data));
+
+  if (eventosProva.length > 0) {
+    const ev = eventosProva[0];
+    const disc = getDisciplina(ev.disciplinaId);
+    return {
+      titulo: 'Revisão Noturna',
+      conteudo: `Revisão para ${ev.titulo} – ${disc.nome}`,
+      tipo: 'prova',
+    };
+  }
+
+  // Verifica se tem trabalho próximo
+  const eventosTrabalho = eventos.filter(e => {
+    if (e.concluido || e.tipo === 'prova') return false;
+    const alvoDate = e.prioridadeEstudo || e.data;
+    const diff = diasRestantesStr(dateStr, alvoDate);
+    const diffFinal = diasRestantesStr(dateStr, e.data);
+    return diffFinal >= 0 && diff <= 7 && diff >= 0;
+  }).sort((a, b) => a.data.localeCompare(b.data));
+
+  if (eventosTrabalho.length > 0) {
+    const ev = eventosTrabalho[0];
+    const disc = getDisciplina(ev.disciplinaId);
+    return {
+      titulo: 'Preparação Noturna',
+      conteudo: `Preparação para ${ev.titulo} – ${disc.nome}`,
+      tipo: 'trabalho',
+    };
+  }
+
+  // Fallback: estudo livre noturno
+  return {
+    titulo: 'Estudo Livre Noturno',
+    conteudo: 'Tempo livre para organizar materiais, revisar anotações ou estudar temas de interesse',
+    tipo: 'livre',
+  };
+}
+
 export function gerarDiasUteisDoSemestre() {
-  const inicio = parseDate('2026-02-09');
-  const fim    = parseDate('2026-07-10');
+  const inicio = parseDate('2026-07-27'); // 2º semestre
+  const fim = parseDate('2026-12-18');
   const dias = [];
   const cur = new Date(inicio);
   while (cur <= fim) {
@@ -207,9 +235,10 @@ export function gerarSemana(dataInicio, eventos, edicoes = {}) {
     const aula = AULAS.find(a => a.data === dateStr) || null;
     const disc = aula ? getDisciplina(aula.disciplinaId) : null;
     const manha = edicoes[dateStr] || gerarBlocoManha(dateStr, eventos);
+    const noturno = gerarBlocoNoturno(dateStr, eventos);
     const eventosNoDia = eventos.filter(e => e.data === dateStr);
 
-    semana.push({ date: dateStr, aula, disciplina: disc, manha, eventosNoDia });
+    semana.push({ date: dateStr, aula, disciplina: disc, manha, noturno, eventosNoDia });
     cur.setDate(cur.getDate() + 1);
   }
   return semana;
@@ -234,12 +263,12 @@ export function tipoEventoLabel(tipo) {
 
 export function corBloco(tipo) {
   const map = {
-    pre_aula: '#4A9EFF',
-    prova: '#E74C3C',
-    trabalho: '#E67E22',
-    seminario: '#BB6BD9',
+    pre_aula: '#4A6FA5',
+    prova: '#B31B2B',
+    trabalho: '#C47B3A',
+    seminario: '#8B5A8B',
     ead: '#56CCF2',
-    livre: '#6FCF97',
+    livre: '#7A8B6E',
   };
   return map[tipo] || '#888';
 }
