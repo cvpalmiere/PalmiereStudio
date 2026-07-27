@@ -1,5 +1,5 @@
 // ============================================================
-// DISCIPLINAS
+// DISCIPLINAS - 2º SEMESTRE
 // ============================================================
 
 export const DISCIPLINAS = [
@@ -9,7 +9,7 @@ export const DISCIPLINAS = [
     professor: 'Antonio Barbosa Junior',
     diaSemana: 1, // Segunda
     horario: '14h',
-    cor: '#FF6B6B',
+    cor: '#8B1A2B',
     ead: false,
   },
   {
@@ -18,7 +18,7 @@ export const DISCIPLINAS = [
     professor: 'Leonardo Pol Suarez',
     diaSemana: 2, // Terça
     horario: '14h',
-    cor: '#4ECDC4',
+    cor: '#6B2A30',
     ead: false,
   },
   {
@@ -27,7 +27,7 @@ export const DISCIPLINAS = [
     professor: 'Deusdeth Pereira Mariano',
     diaSemana: 3, // Quarta
     horario: '14h',
-    cor: '#FFE66D',
+    cor: '#9B3A40',
     ead: false,
   },
   {
@@ -36,7 +36,7 @@ export const DISCIPLINAS = [
     professor: 'João Marcos Souza Costa',
     diaSemana: 4, // Quinta
     horario: '14h',
-    cor: '#A8E6CF',
+    cor: '#5C2A30',
     ead: false,
   },
   {
@@ -45,19 +45,17 @@ export const DISCIPLINAS = [
     professor: 'Felipe Batista da Silva',
     diaSemana: 5, // Sexta
     horario: '14h',
-    cor: '#FF8A5C',
+    cor: '#A84050',
     ead: false,
   },
 ];
 
 // ============================================================
-// AULAS
+// AULAS (resumido - use o código completo que gerei antes)
 // ============================================================
 
 export const AULAS = [
-  // =========================================================
-  // PROGRAMAÇÃO ORIENTADA A OBJETOS (segundas)
-  // =========================================================
+  // POO (segundas) - 17 aulas
   { id: 'poo_1', disciplinaId: 'poo', data: '2026-07-27', tema: 'Apresentação da Disciplina', conteudo: 'Plano de ensino, metodologia, avaliação', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'poo_2', disciplinaId: 'poo', data: '2026-08-03', tema: 'Linguagem de Programação', conteudo: 'Características, tipos, classificações, critérios de avaliação e principais paradigmas', estrategia: 'Expositiva', preparacao: 'Pesquisar paradigmas de programação', avaliacao: '' },
   { id: 'poo_3', disciplinaId: 'poo', data: '2026-08-10', tema: 'Programação de Computadores', conteudo: 'Ambiente de execução, entrada/saída, variáveis, constantes, tipos de dados, operadores', estrategia: 'Prática', preparacao: 'Instalar IDE', avaliacao: '' },
@@ -76,9 +74,7 @@ export const AULAS = [
   { id: 'poo_16', disciplinaId: 'poo', data: '2026-12-07', tema: 'Avaliação 3', conteudo: '3ª Verificação de Aprendizagem', estrategia: 'Avaliação', preparacao: 'Revisar todo o conteúdo', avaliacao: 'Prova 3' },
   { id: 'poo_17', disciplinaId: 'poo', data: '2026-12-14', tema: 'Encerramento', conteudo: 'Resultados finais e encerramento', estrategia: 'Discussão', preparacao: '', avaliacao: '' },
 
-  // =========================================================
-  // ENGENHARIA DE REQUISITOS (terças)
-  // =========================================================
+  // REQUISITOS (terças) - 19 aulas
   { id: 'req_1', disciplinaId: 'req', data: '2026-07-28', tema: 'Apresentação da Disciplina', conteudo: 'Plano de ensino e comentários da disciplina', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'req_2', disciplinaId: 'req', data: '2026-08-04', tema: 'Visão Geral da Engenharia de Requisitos', conteudo: 'Motivação e benefícios, exemplos, exercícios', estrategia: 'Expositiva', preparacao: 'Pesquisar sobre ER', avaliacao: '' },
   { id: 'req_3', disciplinaId: 'req', data: '2026-08-11', tema: 'Visão Geral da Engenharia de Requisitos', conteudo: 'O papel da ER no ciclo de vida do software', estrategia: 'Expositiva', preparacao: 'Revisar ciclo de vida do software', avaliacao: '' },
@@ -99,9 +95,7 @@ export const AULAS = [
   { id: 'req_18', disciplinaId: 'req', data: '2026-12-08', tema: 'Engenharia de Requisitos no Contexto Ágil', conteudo: 'Visão, backlog, priorização, story points, sprints, DevOps', estrategia: 'Prática', preparacao: 'Revisar Scrum', avaliacao: '' },
   { id: 'req_19', disciplinaId: 'req', data: '2026-12-15', tema: 'Seminário - TCD', conteudo: 'Apresentação do Trabalho de Conclusão da Disciplina', estrategia: 'Seminário', preparacao: 'Preparar apresentação', avaliacao: 'TCD - Projeto Final' },
 
-  // =========================================================
-  // BANCO DE DADOS II (quartas)
-  // =========================================================
+  // BD II (quartas) - 20 aulas
   { id: 'bd2_1', disciplinaId: 'bd2', data: '2026-07-29', tema: 'Apresentação da Disciplina', conteudo: 'Abertura, motivação, revisão de modelagem, introdução ao BD', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'bd2_2', disciplinaId: 'bd2', data: '2026-08-05', tema: 'Tópicos Avançados de Modelagem de Dados', conteudo: 'Projeto de BD, fundamentos, administração, política de segurança', estrategia: 'Expositiva + debate', preparacao: 'Revisar modelagem ER', avaliacao: 'Exercício conceitual' },
   { id: 'bd2_3', disciplinaId: 'bd2', data: '2026-08-12', tema: 'Tópicos Avançados de Modelagem de Dados', conteudo: 'Generalização, especialização, herança, OLAP vs OLTP', estrategia: 'Expositiva', preparacao: 'Pesquisar OLAP e OLTP', avaliacao: 'Exercício' },
@@ -123,9 +117,7 @@ export const AULAS = [
   { id: 'bd2_19', disciplinaId: 'bd2', data: '2026-12-02', tema: 'Prova 2', conteudo: '4ª Avaliação - Programação SQL (DDL, DML, DQL)', estrategia: 'Avaliação', preparacao: 'Revisar SQL completo', avaliacao: 'Prova 2' },
   { id: 'bd2_20', disciplinaId: 'bd2', data: '2026-12-09', tema: 'Encerramento', conteudo: 'Divulgação de notas, solução de dúvidas, resultados finais', estrategia: 'Expositiva', preparacao: '', avaliacao: '' },
 
-  // =========================================================
-  // ÁLGEBRA LINEAR E GEOMETRIA ANALÍTICA (quintas)
-  // =========================================================
+  // ALGA (quintas) - 20 aulas
   { id: 'alga_1', disciplinaId: 'alga', data: '2026-07-30', tema: 'Apresentação da Disciplina', conteudo: 'Plano de ensino, metodologia, avaliação', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'alga_2', disciplinaId: 'alga', data: '2026-08-06', tema: 'Matrizes e Sistemas Lineares', conteudo: 'Operações com matrizes, sistemas lineares, escalonamento', estrategia: 'Expositiva + exercícios', preparacao: 'Revisar matrizes', avaliacao: 'Exercícios' },
   { id: 'alga_3', disciplinaId: 'alga', data: '2026-08-13', tema: 'Matrizes e Sistemas Lineares', conteudo: 'Continuação - sistemas lineares, regra de Cramer', estrategia: 'Exercícios', preparacao: 'Praticar sistemas lineares', avaliacao: 'Exercícios' },
@@ -147,9 +139,7 @@ export const AULAS = [
   { id: 'alga_19', disciplinaId: 'alga', data: '2026-12-10', tema: 'Avaliação 3', conteudo: '3ª Avaliação de Aprendizagem', estrategia: 'Avaliação', preparacao: 'Revisar conteúdo completo', avaliacao: 'Prova 3' },
   { id: 'alga_20', disciplinaId: 'alga', data: '2026-12-17', tema: 'Encerramento', conteudo: 'Resultados finais, encerramento', estrategia: 'Discussão', preparacao: '', avaliacao: '' },
 
-  // =========================================================
-  // DESENVOLVIMENTO DE INTERFACES (sextas)
-  // =========================================================
+  // INTERFACES (sextas) - 20 aulas
   { id: 'di_1', disciplinaId: 'di', data: '2026-07-31', tema: 'Apresentação da Disciplina', conteudo: 'Apresentação da disciplina, uso de IA no curso, apresentações iniciais', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'di_2', disciplinaId: 'di', data: '2026-08-07', tema: 'Outros', conteudo: 'Apresentação de tópicos do curso com uso de IA', estrategia: 'Projeto baseado em projetos', preparacao: 'Pesquisar IA em desenvolvimento', avaliacao: '' },
   { id: 'di_3', disciplinaId: 'di', data: '2026-08-14', tema: 'Interação Humano Computador - IHC', conteudo: 'Conceitos, interface, interação, tipografia, cores, usabilidade, acessibilidade, WCAG, ISO 9241', estrategia: 'Expositiva', preparacao: 'Pesquisar Heurísticas de Nielsen', avaliacao: '' },
@@ -173,38 +163,38 @@ export const AULAS = [
 ];
 
 // ============================================================
-// EVENTOS (provas, trabalhos, seminários, etc.)
+// EVENTOS
 // ============================================================
 
 export const EVENTOS_INICIAIS = [
-  // --- POO ---
+  // POO
   { id: 'ev_poo_p1', disciplinaId: 'poo', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-14', prioridadeEstudo: null, concluido: false },
   { id: 'ev_poo_p2', disciplinaId: 'poo', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-11-16', prioridadeEstudo: null, concluido: false },
   { id: 'ev_poo_p3', disciplinaId: 'poo', tipo: 'prova', titulo: 'Prova 3 – 3º Bimestre', data: '2026-12-07', prioridadeEstudo: null, concluido: false },
 
-  // --- Engenharia de Requisitos ---
+  // Requisitos
   { id: 'ev_req_p1', disciplinaId: 'req', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-15', prioridadeEstudo: null, concluido: false },
   { id: 'ev_req_p2', disciplinaId: 'req', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-11-24', prioridadeEstudo: null, concluido: false },
   { id: 'ev_req_tcd', disciplinaId: 'req', tipo: 'trabalho', titulo: 'TCD – Trabalho de Conclusão da Disciplina', data: '2026-12-15', prioridadeEstudo: '2026-12-08', concluido: false },
   { id: 'ev_req_ace', disciplinaId: 'req', tipo: 'trabalho', titulo: 'ACE – Atividades Curriculares de Extensão', data: '2026-12-15', prioridadeEstudo: '2026-12-01', concluido: false },
 
-  // --- Banco de Dados II ---
+  // BD II
   { id: 'ev_bd2_p1', disciplinaId: 'bd2', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-23', prioridadeEstudo: null, concluido: false },
   { id: 'ev_bd2_p2', disciplinaId: 'bd2', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre (SQL prático)', data: '2026-12-02', prioridadeEstudo: null, concluido: false },
 
-  // --- Álgebra Linear e GA ---
+  // ALGA
   { id: 'ev_alga_p1', disciplinaId: 'alga', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-17', prioridadeEstudo: null, concluido: false },
   { id: 'ev_alga_p2', disciplinaId: 'alga', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-11-12', prioridadeEstudo: null, concluido: false },
   { id: 'ev_alga_p3', disciplinaId: 'alga', tipo: 'prova', titulo: 'Prova 3 – 3º Bimestre', data: '2026-12-10', prioridadeEstudo: null, concluido: false },
 
-  // --- Desenvolvimento de Interfaces ---
+  // Interfaces
   { id: 'ev_di_p1', disciplinaId: 'di', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-10-02', prioridadeEstudo: null, concluido: false },
   { id: 'ev_di_p2', disciplinaId: 'di', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-12-11', prioridadeEstudo: null, concluido: false },
   { id: 'ev_di_proj', disciplinaId: 'di', tipo: 'trabalho', titulo: 'Projeto Final – Interface Front-end', data: '2026-12-04', prioridadeEstudo: '2026-11-27', concluido: false },
 ];
 
 // ============================================================
-// MÓDULOS DE CIBERSEGURANÇA (estudo livre)
+// MÓDULOS DE CIBERSEGURANÇA (estudo livre - substitui CC50)
 // ============================================================
 
 export const MODULOS_CYBER = [
