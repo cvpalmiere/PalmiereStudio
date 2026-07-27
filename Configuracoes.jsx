@@ -1,17 +1,12 @@
-// ============================================================
-// PALMIERE STUDIO – Aba Configurações
-// ============================================================
-
 import React, { useState } from 'react';
-import { MODULOS_CC50 } from './dados.js';
-import { EVENTOS_INICIAIS } from './dados.js';
+import { MODULOS_CYBER } from './dados.js';
 
 export default function Configuracoes({ config, setConfig, mostrarNotificacao }) {
   const [form, setForm] = useState({ ...config });
 
   function salvar() {
     setConfig(form);
-    mostrarNotificacao('✅ Configurações salvas!');
+    mostrarNotificacao('Configurações salvas!');
   }
 
   function resetarDados() {
@@ -40,7 +35,7 @@ export default function Configuracoes({ config, setConfig, mostrarNotificacao })
   return (
     <div className="aba-container">
       <div className="aba-header">
-        <h1 className="aba-titulo">⚙️ Configurações</h1>
+        <h1 className="aba-titulo">Configurações</h1>
       </div>
 
       <div className="config-grid">
@@ -54,9 +49,9 @@ export default function Configuracoes({ config, setConfig, mostrarNotificacao })
           <h3 className="config-titulo">Estudo livre (30 min)</h3>
           <label className="config-label">Tópico</label>
           <input className="config-input" value={form.estudoLivre} onChange={e => upd('estudoLivre', e.target.value)} />
-          <label className="config-label" style={{marginTop:12}}>Módulo atual (CC50)</label>
+          <label className="config-label" style={{marginTop:12}}>Módulo atual</label>
           <select className="filtro-select config-select" value={form.cc50Modulo} onChange={e => upd('cc50Modulo', e.target.value)}>
-            {MODULOS_CC50.map(m => <option key={m} value={m}>{m}</option>)}
+            {MODULOS_CYBER.map(m => <option key={m} value={m}>{m}</option>)}
           </select>
         </div>
 
@@ -76,8 +71,8 @@ export default function Configuracoes({ config, setConfig, mostrarNotificacao })
         <div className="card config-secao">
           <h3 className="config-titulo">Dados</h3>
           <div className="config-acoes">
-            <button className="btn-outline" onClick={exportarJSON}>⬇ Exportar dados (JSON)</button>
-            <button className="btn-danger" onClick={resetarDados}>🗑 Resetar semestre</button>
+            <button className="btn-outline" onClick={exportarJSON}>Exportar dados (JSON)</button>
+            <button className="btn-danger" onClick={resetarDados}>Resetar semestre</button>
           </div>
           <p className="config-aviso">O reset apaga todo o progresso salvo (prazos concluídos, aulas assistidas, edições). Os dados base das disciplinas permanecem.</p>
         </div>
