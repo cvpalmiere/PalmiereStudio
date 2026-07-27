@@ -1,11 +1,15 @@
-// ============================================================
-// PALMIERE STUDIO – Aba Hoje (Dashboard Diário)
-// ============================================================
-
 import React, { useMemo } from 'react';
+import { 
+  Clock, 
+  BookOpen, 
+  CheckCircle, 
+  Circle, 
+  Calendar,
+  Moon
+} from 'lucide-react';
 import {
-  hojeISO, formatDateBR, gerarBlocoManha, getProximosPrazos,
-  diasRestantes, tipoLabel, corBloco, getDisciplina
+  hojeISO, formatDateBR, gerarBlocoManha, gerarBlocoNoturno,
+  getProximosPrazos, diasRestantes, tipoLabel, corBloco, getDisciplina
 } from './plano.js';
 import { AULAS } from './dados.js';
 
@@ -14,13 +18,13 @@ const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho',
 
 function saudacao(nome) {
   const h = new Date().getHours();
-  if (h < 12) return `Bom dia, ${nome}!`;
-  if (h < 18) return `Boa tarde, ${nome}!`;
-  return `Boa noite, ${nome}!`;
+  if (h < 12) return `Bom dia, ${nome}`;
+  if (h < 18) return `Boa tarde, ${nome}`;
+  return `Boa noite, ${nome}`;
 }
 
 export default function Hoje({
-  eventos, config, edicoesManha, editarManha, abrirZen,
+  eventos, config, edicoesManha, editarManha,
   estudosConcluidos, marcarEstudoConcluido, concluirEvento
 }) {
   const hoje = hojeISO();
@@ -35,19 +39,25 @@ export default function Hoje({
     [hoje, edicoesManha, eventos]
   );
 
+  const noturno = useMemo(
+    () => gerarBlocoNoturno(hoje, eventos),
+    [hoje, eventos]
+  );
+
   const proximos = useMemo(() => getProximosPrazos(eventos, 3), [eventos]);
   const estudouHoje = estudosConcluidos[hoje] || false;
 
   return (
     <div className="aba-container">
       <div className="hoje-header">
-        <h1 className="saudacao">{saudacao(config.nome)}</h1>
+        <h1 className="saudacao">{saudacao(config.nome)}.</h1>
         <p className="data-hoje">{diaStr}</p>
       </div>
 
       <div className="hoje-grid">
         <div className="hoje-principal">
-          <div className="card card-aula" style={{ borderLeft: `4px solid ${disc?.cor || '#444'}` }}>
+          {/* Aula do dia */}
+          <div className="card card-aula" style={{ borderLeftColor: disc?.cor || '#444' }}>
             <div className="card-header">
               <span className="card-tag" style={{ background: disc?.cor || '#444' }}>
                 {aula ? `Aula às ${disc?.horario}` : 'Sem aula presencial hoje'}
@@ -57,55 +67,68 @@ export default function Hoje({
               <>
                 <h2 className="card-titulo">{disc?.nome}</h2>
                 <p className="card-sub">Prof. {disc?.professor}</p>
-                <p className="card-conteudo">📌 {aula.tema}</p>
+                <p className="card-conteudo">{aula.tema}</p>
                 <p className="card-desc">{aula.conteudo}</p>
               </>
             ) : (
               <>
-                <h2 className="card-titulo">EAD – Estudo Autônomo</h2>
-                <p className="card-desc">Hoje é dia de Bootcamp e Fundamentos de Engenharia.</p>
+                <h2 className="card-titulo">Estudo Autônomo</h2>
+                <p className="card-desc">Aproveite o dia para estudar livremente.</p>
               </>
             )}
           </div>
 
-          <div className="card card-manha" style={{ borderLeft: `4px solid ${corBloco(manha.tipo)}` }}>
+          {/* Manhã - 2h de estudo */}
+          <div className="card card-manha" style={{ borderLeftColor: corBloco(manha.tipo) }}>
             <div className="card-header">
               <span className="card-tag" style={{ background: corBloco(manha.tipo) }}>
-                ☀️ Sua manhã (2h)
+                <Clock size={14} style={{ display: 'inline', marginRight: 6 }} /> Manhã (2h)
               </span>
               <span className="tipo-badge">{tipoLabel(manha.tipo)}</span>
             </div>
             <p className="card-conteudo">{manha.conteudo}</p>
             <div className="card-acoes">
-              <button className="btn-primario" onClick={() => abrirZen(manha.conteudo)}>
-                🎯 Iniciar foco
-              </button>
               <button
                 className={`btn-secundario ${estudouHoje ? 'concluido' : ''}`}
                 onClick={() => marcarEstudoConcluido(hoje, !estudouHoje)}
               >
-                {estudouHoje ? '✅ Estudei hoje' : '○ Marcar como estudado'}
+                {estudouHoje ? <CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} /> : <Circle size={16} style={{ display: 'inline', marginRight: 6 }} />}
+                {estudouHoje ? 'Estudei hoje' : 'Marcar como estudado'}
               </button>
             </div>
           </div>
 
+          {/* Estudo Noturno (sextas) */}
+          {noturno && (
+            <div className="card card-noturno" style={{ borderLeftColor: '#6B2A30' }}>
+              <div className="card-header">
+                <span className="card-tag" style={{ background: '#6B2A30' }}>
+                  <Moon size={14} style={{ display: 'inline', marginRight: 6 }} /> Noite (Livre)
+                </span>
+                <span className="tipo-badge">{noturno.titulo}</span>
+              </div>
+              <p className="card-conteudo">{noturno.conteudo}</p>
+            </div>
+          )}
+
+          {/* Estudo Livre (30min) */}
           <div className="card card-livre">
             <div className="card-header">
-              <span className="card-tag" style={{ background: '#6FCF97' }}>🎓 30min livres</span>
+              <span className="card-tag" style={{ background: '#7A8B6E' }}>
+                <BookOpen size={14} style={{ display: 'inline', marginRight: 6 }} /> Estudo Livre (30min)
+              </span>
             </div>
             <p className="card-conteudo">{config.estudoLivre}</p>
             <p className="card-sub">{config.cc50Modulo}</p>
-            <button className="btn-outline" onClick={() => abrirZen(`${config.estudoLivre} – ${config.cc50Modulo}`)}>
-              ▶ Iniciar (30 min)
-            </button>
           </div>
         </div>
 
+        {/* Lateral */}
         <aside className="hoje-lateral">
           <div className="card card-prazos">
-            <h3 className="lateral-titulo">⏰ Próximos prazos</h3>
+            <h3 className="lateral-titulo">Próximos Prazos</h3>
             {proximos.length === 0 ? (
-              <p className="vazio">Nenhum prazo próximo! 🎉</p>
+              <p className="vazio">Nenhum prazo próximo!</p>
             ) : (
               <ul className="lista-prazos">
                 {proximos.map(ev => {
@@ -120,7 +143,7 @@ export default function Hoje({
                         <span className="prazo-sub">{d?.nome}</span>
                         <span className="prazo-data">{formatDateBR(ev.data)}</span>
                       </div>
-                      <div className="prazo-dias" style={{ color: urgente ? '#E67E22' : '#A0A0A0' }}>
+                      <div className="prazo-dias" style={{ color: urgente ? '#C47B3A' : '#A88085' }}>
                         {restam === 0 ? 'Hoje' : restam < 0 ? 'Atrasado' : `${restam}d`}
                       </div>
                     </li>
@@ -151,11 +174,11 @@ function MiniSemana({ hoje, eventos }) {
     cur.setDate(cur.getDate() + 1);
   }
 
-  const labels = ['Seg','Ter','Qua','Qui','Sex'];
+  const labels = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'];
 
   return (
     <div className="card mini-semana">
-      <h3 className="lateral-titulo">📅 Esta semana</h3>
+      <h3 className="lateral-titulo"><Calendar size={14} style={{ display: 'inline', marginRight: 6 }} /> Esta semana</h3>
       <div className="mini-semana-grid">
         {diasSemana.map((dia, i) => (
           <div key={dia.iso} className={`mini-dia ${dia.iso === hoje ? 'mini-hoje' : ''}`}>
