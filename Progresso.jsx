@@ -1,7 +1,3 @@
-// ============================================================
-// PALMIERE STUDIO – Aba Progresso
-// ============================================================
-
 import React, { useMemo, useState } from 'react';
 import { DISCIPLINAS, AULAS, EVENTOS_INICIAIS } from './dados.js';
 import { gerarDiasUteisDoSemestre, gerarBlocoManha, hojeISO } from './plano.js';
@@ -11,7 +7,6 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
 
   const hojStr = hojeISO();
 
-  // Aulas assistidas por disciplina
   const aulasPorDisc = useMemo(() => {
     return DISCIPLINAS.map(disc => {
       const aulas = AULAS.filter(a => a.disciplinaId === disc.id);
@@ -20,15 +15,11 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
     });
   }, [aulasAssistidas]);
 
-  // Dias estudados
   const diasEstudados = useMemo(() => Object.values(estudosConcluidos).filter(Boolean).length, [estudosConcluidos]);
 
-  // Prazos concluídos e pendentes
   const prazosConcluidos = eventos.filter(e => e.concluido).length;
-  const prazosPendentes  = eventos.filter(e => !e.concluido && e.data < hojStr).length;
-  const totalEventos     = eventos.length;
+  const prazosPendentes = eventos.filter(e => !e.concluido && e.data < hojStr).length;
 
-  // Pré-aulas
   const diasComPreAula = useMemo(() => {
     const dias = gerarDiasUteisDoSemestre().filter(d => d <= hojStr);
     return dias.filter(d => {
@@ -44,11 +35,10 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
   return (
     <div className="aba-container">
       <div className="aba-header">
-        <h1 className="aba-titulo">📊 Progresso</h1>
+        <h1 className="aba-titulo">Progresso</h1>
         <p className="aba-sub">Acompanhe sua evolução no semestre</p>
       </div>
 
-      {/* Resumo rápido */}
       <div className="stats-grid">
         <div className="stat-card card">
           <span className="stat-num">{diasEstudados}</span>
@@ -58,8 +48,8 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
           <span className="stat-num">{prazosConcluidos}</span>
           <span className="stat-label">Prazos concluídos</span>
         </div>
-        <div className="stat-card card" style={{ borderTop: prazosPendentes > 0 ? '3px solid #E74C3C' : '3px solid #6FCF97' }}>
-          <span className="stat-num" style={{ color: prazosPendentes > 0 ? '#E74C3C' : '#6FCF97' }}>
+        <div className="stat-card card" style={{ borderTop: prazosPendentes > 0 ? '3px solid #B31B2B' : '3px solid #7A8B6E' }}>
+          <span className="stat-num" style={{ color: prazosPendentes > 0 ? '#B31B2B' : '#7A8B6E' }}>
             {prazosPendentes}
           </span>
           <span className="stat-label">Em atraso</span>
@@ -72,7 +62,6 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
         </div>
       </div>
 
-      {/* Frequência por disciplina */}
       <div className="card" style={{ marginTop: 24 }}>
         <h3 className="card-titulo" style={{ marginBottom: 16 }}>Frequência por disciplina</h3>
         {aulasPorDisc.filter(d => d.total > 0).map(({ disc, total, assistidas }) => {
@@ -87,10 +76,10 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
               <div className="freq-barra-cont">
                 <div
                   className="freq-barra"
-                  style={{ width: `${pct}%`, background: baixa ? '#E74C3C' : disc.cor }}
+                  style={{ width: `${pct}%`, background: baixa ? '#B31B2B' : disc.cor }}
                 />
               </div>
-              <span className="freq-num" style={{ color: baixa ? '#E74C3C' : '#E0E0E0' }}>
+              <span className="freq-num" style={{ color: baixa ? '#B31B2B' : '#C9A8AC' }}>
                 {assistidas}/{total} ({Math.round(pct)}%)
               </span>
             </div>
@@ -98,7 +87,6 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
         })}
       </div>
 
-      {/* Menções (notas) */}
       <div className="card" style={{ marginTop: 24 }}>
         <h3 className="card-titulo" style={{ marginBottom: 16 }}>Menções por disciplina</h3>
         <p className="card-desc" style={{ marginBottom: 16 }}>Insira suas notas para acompanhar a situação de aprovação.</p>
@@ -116,7 +104,7 @@ export default function Progresso({ eventos, aulasAssistidas, estudosConcluidos 
               </select>
               {mencoes[disc.id] && (
                 <span className={`mencao-status ${['SS', 'MS', 'MM'].includes(mencoes[disc.id]) ? 'aprovado' : 'atencao'}`}>
-                  {['SS', 'MS', 'MM'].includes(mencoes[disc.id]) ? '✓ Aprovado' : '⚠ Atenção'}
+                  {['SS', 'MS', 'MM'].includes(mencoes[disc.id]) ? 'Aprovado' : 'Atenção'}
                 </span>
               )}
             </div>
