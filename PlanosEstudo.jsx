@@ -1,16 +1,15 @@
-// ============================================================
-// PALMIERE STUDIO – Aba Planos de Estudo
-// ============================================================
-
 import React, { useState, useMemo } from 'react';
-import { gerarSemana, formatDateBR, tipoLabel, corBloco, hojeISO, parseDate, formatDateISO } from './plano.js';
+import { 
+  gerarSemana, formatDateBR, tipoLabel, corBloco, hojeISO, parseDate, formatDateISO 
+} from './plano.js';
+import { Calendar, Edit } from 'lucide-react';
 
-const DIAS_LABELS = ['Segunda','Terça','Quarta','Quinta','Sexta'];
+const DIAS_LABELS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
 
 function getSemanas() {
   const semanas = [];
-  const inicio = new Date(2026, 1, 9); // 09/02/2026
-  const fim    = new Date(2026, 6, 10); // 10/07/2026
+  const inicio = new Date(2026, 6, 27); // 27/07/2026
+  const fim = new Date(2026, 11, 18);  // 18/12/2026
   const cur = new Date(inicio);
   while (cur <= fim) {
     semanas.push(formatDateISO(cur));
@@ -37,7 +36,7 @@ function getSemanaAtual() {
 export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
   const semanas = useMemo(() => getSemanas(), []);
   const [semanaSelecionada, setSemanaSelecionada] = useState(getSemanaAtual);
-  const [editando, setEditando] = useState(null); // { dateStr, conteudo }
+  const [editando, setEditando] = useState(null);
 
   const diasSemana = useMemo(
     () => gerarSemana(semanaSelecionada, eventos, edicoesManha),
@@ -56,12 +55,12 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
   return (
     <div className="aba-container">
       <div className="aba-header">
-        <h1 className="aba-titulo">📖 Planos de Estudo</h1>
+        <h1 className="aba-titulo">Planos de Estudo</h1>
         <p className="aba-sub">Visualize e ajuste o plano gerado automaticamente</p>
       </div>
 
       <div className="plano-controles">
-        <label className="filtro-label">Semana:</label>
+        <label className="filtro-label"><Calendar size={14} style={{ display: 'inline', marginRight: 6 }} />Semana:</label>
         <select
           className="filtro-select"
           value={semanaSelecionada}
@@ -87,9 +86,9 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
               {/* Manhã */}
               <div className="plano-bloco" style={{ borderLeft: `3px solid ${corBloco(dia.manha.tipo)}` }}>
                 <div className="plano-bloco-header">
-                  <span className="plano-bloco-label">☀️ Manhã (2h)</span>
+                  <span className="plano-bloco-label">Manhã (2h)</span>
                   <button className="btn-outline btn-xs" onClick={() => setEditando({ dateStr: dia.date, conteudo: dia.manha.conteudo })}>
-                    Editar
+                    <Edit size={12} style={{ display: 'inline', marginRight: 4 }} /> Editar
                   </button>
                 </div>
                 <span className="plano-tipo" style={{ color: corBloco(dia.manha.tipo) }}>
@@ -101,15 +100,23 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
               {/* Tarde */}
               {dia.aula ? (
                 <div className="plano-bloco" style={{ borderLeft: `3px solid ${dia.disciplina?.cor}` }}>
-                  <span className="plano-bloco-label">🎓 Tarde (14h)</span>
+                  <span className="plano-bloco-label">Tarde (14h)</span>
                   <p className="plano-conteudo">
                     <strong>{dia.disciplina?.nome}</strong> – {dia.aula.tema}
                   </p>
                 </div>
               ) : (
                 <div className="plano-bloco plano-bloco-ead">
-                  <span className="plano-bloco-label">📱 EAD</span>
-                  <p className="plano-conteudo">Bootcamp / Fundamentos</p>
+                  <span className="plano-bloco-label">Livre</span>
+                  <p className="plano-conteudo">Sem aula presencial</p>
+                </div>
+              )}
+
+              {/* Noturno (sextas) */}
+              {dia.noturno && (
+                <div className="plano-bloco" style={{ borderLeft: '3px solid #6B2A30', marginTop: 4 }}>
+                  <span className="plano-bloco-label">Noite (Livre)</span>
+                  <p className="plano-conteudo">{dia.noturno.conteudo}</p>
                 </div>
               )}
 
@@ -118,7 +125,7 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
                 <div className="plano-eventos">
                   {dia.eventosNoDia.map(ev => (
                     <span key={ev.id} className={`plano-ev-tag ${ev.tipo}`}>
-                      ⚠️ {ev.titulo}
+                      {ev.titulo}
                     </span>
                   ))}
                 </div>
@@ -133,7 +140,7 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
         <div className="modal-overlay" onClick={() => setEditando(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <h3>Editar bloco de manhã</h3>
-            <p style={{color:'#A0A0A0', marginBottom:12}}>
+            <p style={{color:'#A88085', marginBottom:12}}>
               {formatDateBR(editando.dateStr)}
             </p>
             <textarea
