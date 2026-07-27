@@ -1,16 +1,12 @@
-// ============================================================
-// PALMIERE STUDIO – Aba Planos de Aula
-// ============================================================
-
 import React, { useState } from 'react';
 import { DISCIPLINAS, AULAS } from './dados.js';
 import { formatDateBR } from './plano.js';
+import { CheckCircle, Circle, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function PlanosAula({ aulasAssistidas, marcarAulaAssistida }) {
-  const [disciplinaAberta, setDisciplinaAberta] = useState('es');
+  const [disciplinaAberta, setDisciplinaAberta] = useState('poo');
 
   const discPresenciais = DISCIPLINAS.filter(d => !d.ead);
-  const discEad = DISCIPLINAS.filter(d => d.ead);
 
   function AulaTabela({ discId, cor }) {
     const aulas = AULAS.filter(a => a.disciplinaId === discId).sort((a, b) => a.data.localeCompare(b.data));
@@ -29,7 +25,7 @@ export default function PlanosAula({ aulasAssistidas, marcarAulaAssistida }) {
           <table className="tabela-aulas">
             <thead>
               <tr>
-                <th style={{width:40}}>✓</th>
+                <th style={{width:40}}></th>
                 <th>Data</th>
                 <th>Tema</th>
                 <th>Conteúdo</th>
@@ -48,10 +44,10 @@ export default function PlanosAula({ aulasAssistidas, marcarAulaAssistida }) {
                       className="checkbox-aula"
                     />
                   </td>
-                  <td style={{whiteSpace:'nowrap', color:'#A0A0A0'}}>{formatDateBR(aula.data)}</td>
+                  <td style={{whiteSpace:'nowrap', color:'#A88085'}}>{formatDateBR(aula.data)}</td>
                   <td style={{fontWeight: 500}}>{aula.tema}</td>
-                  <td style={{color:'#C0C0C0', fontSize:13}}>{aula.conteudo}</td>
-                  <td style={{color:'#C0C0C0', fontSize:13}}>{aula.preparacao || '—'}</td>
+                  <td style={{color:'#C9A8AC', fontSize:13}}>{aula.conteudo}</td>
+                  <td style={{color:'#C9A8AC', fontSize:13}}>{aula.preparacao || '—'}</td>
                   <td>
                     {aula.avaliacao ? (
                       <span className="tag-avaliacao">{aula.avaliacao}</span>
@@ -69,12 +65,11 @@ export default function PlanosAula({ aulasAssistidas, marcarAulaAssistida }) {
   return (
     <div className="aba-container">
       <div className="aba-header">
-        <h1 className="aba-titulo">📚 Planos de Aula</h1>
+        <h1 className="aba-titulo">Planos de Aula</h1>
         <p className="aba-sub">Cronograma completo de cada disciplina</p>
       </div>
 
       <div className="acordeon">
-        <p className="secao-label">Presenciais</p>
         {discPresenciais.map(disc => (
           <div key={disc.id} className="acordeon-item">
             <button
@@ -86,35 +81,11 @@ export default function PlanosAula({ aulasAssistidas, marcarAulaAssistida }) {
                 <span className="acordeon-titulo">{disc.nome}</span>
                 <span className="acordeon-sub">Prof. {disc.professor} · {['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][disc.diaSemana]} às {disc.horario}</span>
               </div>
-              <span className="acordeon-seta">{disciplinaAberta === disc.id ? '▲' : '▼'}</span>
+              <span className="acordeon-seta">{disciplinaAberta === disc.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span>
             </button>
             {disciplinaAberta === disc.id && (
               <div className="acordeon-body">
                 <AulaTabela discId={disc.id} cor={disc.cor} />
-              </div>
-            )}
-          </div>
-        ))}
-
-        <p className="secao-label" style={{marginTop:24}}>EAD (segunda-feira)</p>
-        {discEad.map(disc => (
-          <div key={disc.id} className="acordeon-item">
-            <button
-              className={`acordeon-header ${disciplinaAberta === disc.id ? 'aberto' : ''}`}
-              style={{ borderLeft: `4px solid ${disc.cor}` }}
-              onClick={() => setDisciplinaAberta(disciplinaAberta === disc.id ? null : disc.id)}
-            >
-              <div>
-                <span className="acordeon-titulo">{disc.nome}</span>
-                <span className="acordeon-sub">EAD · Estudo autônomo</span>
-              </div>
-              <span className="acordeon-seta">{disciplinaAberta === disc.id ? '▲' : '▼'}</span>
-            </button>
-            {disciplinaAberta === disc.id && (
-              <div className="acordeon-body">
-                <p style={{color:'#A0A0A0', padding:'12px 0'}}>
-                  Disciplina EAD – acompanhe pelos prazos e webaulas na aba Prazos.
-                </p>
               </div>
             )}
           </div>
