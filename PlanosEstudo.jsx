@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { 
   gerarSemana, formatDateBR, tipoLabel, corBloco, hojeISO, parseDate, formatDateISO 
 } from './plano.js';
-import { Calendar, Edit } from 'lucide-react';
+import { Calendar, Edit, Moon } from 'lucide-react';
 
 const DIAS_LABELS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
 
@@ -60,7 +60,10 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
       </div>
 
       <div className="plano-controles">
-        <label className="filtro-label"><Calendar size={14} style={{ display: 'inline', marginRight: 6 }} />Semana:</label>
+        <label className="filtro-label">
+          <Calendar size={14} style={{ display: 'inline', marginRight: 6 }} />
+          Semana:
+        </label>
         <select
           className="filtro-select"
           value={semanaSelecionada}
@@ -83,11 +86,14 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
                 {isHoje && <span className="hoje-badge">Hoje</span>}
               </div>
 
-              {/* Manhã */}
+              {/* Manhã - 2h de estudo */}
               <div className="plano-bloco" style={{ borderLeft: `3px solid ${corBloco(dia.manha.tipo)}` }}>
                 <div className="plano-bloco-header">
                   <span className="plano-bloco-label">Manhã (2h)</span>
-                  <button className="btn-outline btn-xs" onClick={() => setEditando({ dateStr: dia.date, conteudo: dia.manha.conteudo })}>
+                  <button 
+                    className="btn-outline btn-xs" 
+                    onClick={() => setEditando({ dateStr: dia.date, conteudo: dia.manha.conteudo })}
+                  >
                     <Edit size={12} style={{ display: 'inline', marginRight: 4 }} /> Editar
                   </button>
                 </div>
@@ -97,7 +103,7 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
                 <p className="plano-conteudo">{dia.manha.conteudo}</p>
               </div>
 
-              {/* Tarde */}
+              {/* Tarde - Aula presencial ou livre */}
               {dia.aula ? (
                 <div className="plano-bloco" style={{ borderLeft: `3px solid ${dia.disciplina?.cor}` }}>
                   <span className="plano-bloco-label">Tarde (14h)</span>
@@ -107,15 +113,19 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
                 </div>
               ) : (
                 <div className="plano-bloco plano-bloco-ead">
-                  <span className="plano-bloco-label">Livre</span>
+                  <span className="plano-bloco-label">Tarde</span>
                   <p className="plano-conteudo">Sem aula presencial</p>
                 </div>
               )}
 
-              {/* Noturno (sextas) */}
+              {/* Noturno - Estudo livre nas sextas */}
               {dia.noturno && (
                 <div className="plano-bloco" style={{ borderLeft: '3px solid #6B2A30', marginTop: 4 }}>
-                  <span className="plano-bloco-label">Noite (Livre)</span>
+                  <div className="plano-bloco-header">
+                    <span className="plano-bloco-label">
+                      <Moon size={12} style={{ display: 'inline', marginRight: 4 }} /> Noite (Livre)
+                    </span>
+                  </div>
                   <p className="plano-conteudo">{dia.noturno.conteudo}</p>
                 </div>
               )}
@@ -135,12 +145,12 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
         })}
       </div>
 
-      {/* Modal de edição */}
+      {/* Modal de edição da manhã */}
       {editando && (
         <div className="modal-overlay" onClick={() => setEditando(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <h3>Editar bloco de manhã</h3>
-            <p style={{color:'#A88085', marginBottom:12}}>
+            <p style={{ color: '#A88085', marginBottom: 12 }}>
               {formatDateBR(editando.dateStr)}
             </p>
             <textarea
