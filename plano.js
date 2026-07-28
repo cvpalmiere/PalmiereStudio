@@ -267,9 +267,11 @@ export function gerarSemana(dataInicio, eventos, edicoes = {}) {
 export function tipoLabel(tipo) {
   const map = {
     pre_aula: 'Pré-aula',
-    prova: 'Revisão para prova',
-    trabalho: 'Preparação de trabalho',
-    seminario: 'Preparação de seminário',
+    prova: 'Prova',
+    trabalho: 'Trabalho',
+    seminario: 'Seminário',
+    revisao: 'Revisão',
+    extra: 'Curso Extra',
     ead: 'EAD',
     livre: 'Estudo livre',
   };
@@ -287,6 +289,8 @@ export function corBloco(tipo) {
     prova: '#B31B2B',
     trabalho: '#C47B3A',
     seminario: '#8B5A8B',
+    revisao: '#5C8A6E',
+    extra: '#8B6B8B',
     ead: '#56CCF2',
     livre: '#7A8B6E',
   };
