@@ -205,148 +205,21 @@ export const EVENTOS_INICIAIS = [
 ];
 
 // ============================================================
-// MÓDULOS DO CURSO CISCO ETHICAL HACKER (estudo livre - 1h/dia)
+// MÓDULOS DOS CURSOS EXTRAS (substitui o CC50/Cyber)
 // ============================================================
 
-export const MODULOS_CYBER = [
-  {
-    id: 'mod1',
-    nome: 'Módulo 1 – Introdução ao Hacking Ético e Testes de Penetração',
-    semanas: 2,
-    topicos: [
-      '1.0.1 Por que devo fazer este módulo?',
-      '1.0.2 O que aprenderei neste módulo?',
-      '1.1 Entendendo hacking ético e testes de penetração',
-      '1.2 Explorando metodologias de teste de penetração',
-      '1.3 Construindo seu próprio laboratório',
-      '1.4 Resumo'
-    ]
-  },
-  {
-    id: 'mod2',
-    nome: 'Módulo 2 – Planejamento e Escopo de Avaliação de Pentest',
-    semanas: 1,
-    topicos: [
-      '2.0 Introdução',
-      '2.1 Conceitos de governança, risco e conformidade',
-      '2.2 Importância do escopo e necessidades organizacionais',
-      '2.3 Mentalidade de hacking ético e profissionalismo',
-      '2.4 Resumo'
-    ]
-  },
-  {
-    id: 'mod3',
-    nome: 'Módulo 3 – Coleta de Informações e Varredura de Vulnerabilidades',
-    semanas: 2,
-    topicos: [
-      '3.0 Introdução',
-      '3.1 Reconhecimento Passivo',
-      '3.2 Reconhecimento Ativo',
-      '3.3 Verificações de vulnerabilidade',
-      '3.4 Análise de resultados de varredura',
-      '3.5 Resumo'
-    ]
-  },
-  {
-    id: 'mod4',
-    nome: 'Módulo 4 – Ataques de Engenharia Social',
-    semanas: 1,
-    topicos: [
-      '4.0 Introdução',
-      '4.1 Pretexting e Impersonação',
-      '4.2 Ataques de engenharia social',
-      '4.3 Ataques físicos',
-      '4.4 Ferramentas de engenharia social',
-      '4.5 Métodos de Influência',
-      '4.6 Resumo'
-    ]
-  },
-  {
-    id: 'mod5',
-    nome: 'Módulo 5 – Exploração de Redes Cabadas e Sem Fio',
-    semanas: 2,
-    topicos: [
-      '5.0 Introdução',
-      '5.1 Exploração de Vulnerabilidades Baseadas em Rede',
-      '5.2 Explorando vulnerabilidades sem fio',
-      '5.3 Resumo'
-    ]
-  },
-  {
-    id: 'mod6',
-    nome: 'Módulo 6 – Exploração de Vulnerabilidades em Aplicações',
-    semanas: 3,
-    topicos: [
-      '6.0 Introdução',
-      '6.1 OWASP Top 10',
-      '6.2 Construindo laboratório de aplicações Web',
-      '6.3 Falhas de Lógica de Negócios',
-      '6.4 Vulnerabilidades de Injeção (SQL Injection)',
-      '6.5 Vulnerabilidades de Autenticação',
-      '6.6 Vulnerabilidades de Autorização',
-      '6.7 Cross-Site Scripting (XSS)',
-      '6.8 CSRF/XSRF e Server-Side Request Forgery',
-      '6.9 Clickjacking',
-      '6.10 Falhas de Configurações de Segurança',
-      '6.11 Vulnerabilidades de Inclusão de Arquivos',
-      '6.12 Práticas de Código Inseguro',
-      '6.13 Resumo'
-    ]
-  },
-  {
-    id: 'mod7',
-    nome: 'Módulo 7 – Segurança em Nuvem, Mobile e IoT',
-    semanas: 1,
-    topicos: [
-      '7.0 Introdução',
-      '7.1 Ataques em tecnologias de nuvem',
-      '7.2 Ataques contra sistemas especializados',
-      '7.3 Resumo'
-    ]
-  },
-  {
-    id: 'mod8',
-    nome: 'Módulo 8 – Técnicas de Pós-Exploração',
-    semanas: 1,
-    topicos: [
-      '8.0 Introdução',
-      '8.1 Persistência após comprometer um sistema',
-      '8.2 Movimento lateral, evasão e enumeração',
-      '8.3 Resumo'
-    ]
-  },
-  {
-    id: 'mod9',
-    nome: 'Módulo 9 – Relatórios e Comunicação',
-    semanas: 1,
-    topicos: [
-      '9.0 Introdução',
-      '9.1 Componentes de relatórios escritos',
-      '9.2 Análise e recomendação de remediação',
-      '9.3 Comunicação durante o processo',
-      '9.4 Atividades pós-entrega',
-      '9.5 Resumo'
-    ]
-  },
-  {
-    id: 'mod10',
-    nome: 'Módulo 10 – Ferramentas e Análise de Código',
-    semanas: 1,
-    topicos: [
-      '10.0 Introdução',
-      '10.1 Conceitos de scripts e desenvolvimento de software',
-      '10.2 Ferramentas de pentest e análise de código de exploit',
-      '10.3 Resumo'
-    ]
-  },
-  {
-    id: 'mod_final',
-    nome: '🎯 Projeto Final + Exame do Curso',
-    semanas: 1,
-    topicos: [
-      'Revisão Geral do Curso',
-      'Projeto Final – Captura de Bandeira (CTF)',
-      'Exame Final do Curso de Hacker Ético',
-    ]
-  }
+export const MODULOS_EXTRAS = {
+  segunda: 'Java (Coddy)',
+  terca: 'SQL (Coddy)',
+  quarta: 'Java (Curso com certificado)',
+  quinta: 'HTML/CSS/JS (Coddy)',
+  sexta: 'Java (Coddy)',
+};
+
+// Se quiser manter uma lista para o dropdown das configs:
+export const CURSOS_EXTRAS_LISTA = [
+  'Java (Coddy)',
+  'SQL (Coddy)',
+  'Java (Curso com certificado)',
+  'HTML/CSS/JS (Coddy)',
 ];
