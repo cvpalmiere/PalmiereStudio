@@ -83,25 +83,51 @@ export default function Hoje({
             )}
           </div>
 
-          {/* Manhã - 2h de estudo */}
-          <div className="card card-manha" style={{ borderLeftColor: corBloco(manha.tipo) }}>
-            <div className="card-header">
-              <span className="card-tag" style={{ background: corBloco(manha.tipo) }}>
-                <Clock size={14} style={{ display: 'inline', marginRight: 6 }} /> Manhã (2h)
-              </span>
-              <span className="tipo-badge">{tipoLabel(manha.tipo)}</span>
-            </div>
-            <p className="card-conteudo">{manha.conteudo}</p>
-            <div className="card-acoes">
-              <button
-                className={`btn-secundario ${estudouHoje ? 'concluido' : ''}`}
-                onClick={() => marcarEstudoConcluido(hoje, !estudouHoje)}
-              >
-                {estudouHoje ? <CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} /> : <Circle size={16} style={{ display: 'inline', marginRight: 6 }} />}
-                {estudouHoje ? 'Estudei hoje' : 'Marcar como estudado'}
-              </button>
-            </div>
-          </div>
+{/* Manhã - 3h de estudo */}
+<div className="card card-manha" style={{ borderLeftColor: corBloco(manha.tipo) }}>
+  <div className="card-header">
+    <span className="card-tag" style={{ background: corBloco(manha.tipo) }}>
+      <Clock size={14} style={{ display: 'inline', marginRight: 6 }} /> Manhã (3h)
+    </span>
+  </div>
+  
+  {manha.blocos && manha.blocos.map((bloco, index) => (
+    <div key={index} className="bloco-manha-item" style={{ 
+      borderLeft: `3px solid ${corBloco(bloco.tipo)}`,
+      padding: '10px 14px',
+      marginBottom: '8px',
+      background: 'var(--bg-card-2)',
+      borderRadius: '8px'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span className="tipo-badge" style={{ color: corBloco(bloco.tipo) }}>
+          {tipoLabel(bloco.tipo)}
+        </span>
+        {bloco.descricao && (
+          <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+            {bloco.descricao}
+          </span>
+        )}
+      </div>
+      <p style={{ fontSize: '14px', marginTop: '4px', fontWeight: 500 }}>
+        {bloco.titulo}
+      </p>
+      <p style={{ fontSize: '12px', color: 'var(--text-sub)' }}>
+        {bloco.conteudo}
+      </p>
+    </div>
+  ))}
+  
+  <div className="card-acoes">
+    <button
+      className={`btn-secundario ${estudouHoje ? 'concluido' : ''}`}
+      onClick={() => marcarEstudoConcluido(hoje, !estudouHoje)}
+    >
+      {estudouHoje ? <CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} /> : <Circle size={16} style={{ display: 'inline', marginRight: 6 }} />}
+      {estudouHoje ? 'Estudei hoje' : 'Marcar como estudado'}
+    </button>
+  </div>
+</div>
 
           {/* Estudo Noturno (sextas) */}
           {noturno && (
@@ -115,36 +141,6 @@ export default function Hoje({
               <p className="card-conteudo">{noturno.conteudo}</p>
             </div>
           )}
-
-          {/* Estudo Livre - Cisco Ethical Hacker (1h) */}
-          <div className="card card-livre">
-            <div className="card-header">
-              <span className="card-tag" style={{ background: '#7A8B6E' }}>
-                <BookOpen size={14} style={{ display: 'inline', marginRight: 6 }} /> 
-                Cisco Ethical Hacker (1h)
-              </span>
-            </div>
-            <p className="card-conteudo">
-              <strong>{config.cc50Modulo}</strong>
-            </p>
-            <p className="card-desc">
-              {estudoCyber ? (
-                <>
-                  <span className="tipo-badge">{estudoCyber.tipo === 'teoria' ? '📖 Teoria' : '💻 Prática'}</span>
-                  <span style={{ display: 'block', marginTop: 4, fontSize: 14, color: '#C9A8AC' }}>
-                    {estudoCyber.conteudo}
-                    {estudoCyber.extra && <span style={{ display: 'block', fontSize: 12, color: '#A88085' }}>{estudoCyber.extra}</span>}
-                  </span>
-                </>
-              ) : (
-                'Curso concluído ou pausado'
-              )}
-            </p>
-            <p className="card-sub" style={{ marginTop: 8, fontSize: 11, color: '#A88085' }}>
-              {estudoCyber ? `⏱ ${estudoCyber.duracao}` : '⏱ 1h diária'}
-            </p>
-          </div>
-        </div>
 
         {/* Lateral */}
         <aside className="hoje-lateral">
