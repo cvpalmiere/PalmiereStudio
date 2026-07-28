@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { 
   Clock, 
-  BookOpen, 
   CheckCircle, 
   Circle, 
   Calendar,
@@ -9,8 +8,7 @@ import {
 } from 'lucide-react';
 import {
   hojeISO, formatDateBR, gerarBlocoManha, gerarBlocoNoturno,
-  getProximosPrazos, diasRestantes, tipoLabel, corBloco, getDisciplina,
-  gerarPlanoCyber, getEstudoCyberHoje
+  getProximosPrazos, diasRestantes, tipoLabel, corBloco, getDisciplina
 } from './plano.js';
 import { AULAS } from './dados.js';
 
@@ -48,10 +46,6 @@ export default function Hoje({
   const proximos = useMemo(() => getProximosPrazos(eventos, 3), [eventos]);
   const estudouHoje = estudosConcluidos[hoje] || false;
 
-  // Plano do curso Cisco Ethical Hacker
-  const planosCyber = useMemo(() => gerarPlanoCyber(), []);
-  const estudoCyber = useMemo(() => getEstudoCyberHoje(planosCyber), [planosCyber]);
-
   return (
     <div className="aba-container">
       <div className="hoje-header">
@@ -83,51 +77,51 @@ export default function Hoje({
             )}
           </div>
 
-{/* Manhã - 3h de estudo */}
-<div className="card card-manha" style={{ borderLeftColor: corBloco(manha.tipo) }}>
-  <div className="card-header">
-    <span className="card-tag" style={{ background: corBloco(manha.tipo) }}>
-      <Clock size={14} style={{ display: 'inline', marginRight: 6 }} /> Manhã (3h)
-    </span>
-  </div>
-  
-  {manha.blocos && manha.blocos.map((bloco, index) => (
-    <div key={index} className="bloco-manha-item" style={{ 
-      borderLeft: `3px solid ${corBloco(bloco.tipo)}`,
-      padding: '10px 14px',
-      marginBottom: '8px',
-      background: 'var(--bg-card-2)',
-      borderRadius: '8px'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span className="tipo-badge" style={{ color: corBloco(bloco.tipo) }}>
-          {tipoLabel(bloco.tipo)}
-        </span>
-        {bloco.descricao && (
-          <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
-            {bloco.descricao}
-          </span>
-        )}
-      </div>
-      <p style={{ fontSize: '14px', marginTop: '4px', fontWeight: 500 }}>
-        {bloco.titulo}
-      </p>
-      <p style={{ fontSize: '12px', color: 'var(--text-sub)' }}>
-        {bloco.conteudo}
-      </p>
-    </div>
-  ))}
-  
-  <div className="card-acoes">
-    <button
-      className={`btn-secundario ${estudouHoje ? 'concluido' : ''}`}
-      onClick={() => marcarEstudoConcluido(hoje, !estudouHoje)}
-    >
-      {estudouHoje ? <CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} /> : <Circle size={16} style={{ display: 'inline', marginRight: 6 }} />}
-      {estudouHoje ? 'Estudei hoje' : 'Marcar como estudado'}
-    </button>
-  </div>
-</div>
+          {/* Manhã - 3h de estudo */}
+          <div className="card card-manha" style={{ borderLeftColor: corBloco(manha.tipo) }}>
+            <div className="card-header">
+              <span className="card-tag" style={{ background: corBloco(manha.tipo) }}>
+                <Clock size={14} style={{ display: 'inline', marginRight: 6 }} /> Manhã (3h)
+              </span>
+            </div>
+            
+            {manha.blocos && manha.blocos.map((bloco, index) => (
+              <div key={index} className="bloco-manha-item" style={{ 
+                borderLeft: `3px solid ${corBloco(bloco.tipo)}`,
+                padding: '10px 14px',
+                marginBottom: '8px',
+                background: 'var(--bg-card-2)',
+                borderRadius: '8px'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span className="tipo-badge" style={{ color: corBloco(bloco.tipo) }}>
+                    {tipoLabel(bloco.tipo)}
+                  </span>
+                  {bloco.descricao && (
+                    <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+                      {bloco.descricao}
+                    </span>
+                  )}
+                </div>
+                <p style={{ fontSize: '14px', marginTop: '4px', fontWeight: 500 }}>
+                  {bloco.titulo}
+                </p>
+                <p style={{ fontSize: '12px', color: 'var(--text-sub)' }}>
+                  {bloco.conteudo}
+                </p>
+              </div>
+            ))}
+            
+            <div className="card-acoes">
+              <button
+                className={`btn-secundario ${estudouHoje ? 'concluido' : ''}`}
+                onClick={() => marcarEstudoConcluido(hoje, !estudouHoje)}
+              >
+                {estudouHoje ? <CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} /> : <Circle size={16} style={{ display: 'inline', marginRight: 6 }} />}
+                {estudouHoje ? 'Estudei hoje' : 'Marcar como estudado'}
+              </button>
+            </div>
+          </div>
 
           {/* Estudo Noturno (sextas) */}
           {noturno && (
@@ -141,6 +135,7 @@ export default function Hoje({
               <p className="card-conteudo">{noturno.conteudo}</p>
             </div>
           )}
+        </div>
 
         {/* Lateral */}
         <aside className="hoje-lateral">
