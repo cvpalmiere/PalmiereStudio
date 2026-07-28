@@ -20,8 +20,6 @@ export default function App() {
   const [edicoesManha, setEdicoesManha] = useLocalStorage('ps_edicoes', {});
   const [config, setConfig] = useLocalStorage('ps_config', {
     nome: 'Carla',
-    estudoLivre: 'Cisco Ethical Hacker',
-    cc50Modulo: 'Módulo 1 – Introdução ao Hacking Ético e Testes de Penetração',
     cargaHoraria: 2,
     fontSize: 16,
   });
