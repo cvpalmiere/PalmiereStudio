@@ -86,35 +86,35 @@ export default function PlanosEstudo({ eventos, edicoesManha, editarManha }) {
                 {isHoje && <span className="hoje-badge">Hoje</span>}
               </div>
 
-{/* Manhã - 3 blocos */}
-<div className="plano-bloco" style={{ borderLeft: `3px solid ${corBloco(dia.manha.tipo)}` }}>
-  <div className="plano-bloco-header">
-    <span className="plano-bloco-label">Manhã (3h)</span>
-    <button className="btn-outline btn-xs" onClick={() => setEditando({ dateStr: dia.date, conteudo: dia.manha.conteudo })}>
-      <Edit size={12} style={{ display: 'inline', marginRight: 4 }} /> Editar
-    </button>
-  </div>
-  
-  {dia.manha.blocos && dia.manha.blocos.map((bloco, index) => (
-    <div key={index} style={{ 
-      padding: '6px 10px',
-      marginBottom: '6px',
-      background: 'var(--bg-card)',
-      borderRadius: '4px',
-      borderLeft: `3px solid ${corBloco(bloco.tipo)}`
-    }}>
-      <span className="plano-tipo" style={{ color: corBloco(bloco.tipo), fontSize: '10px' }}>
-        {tipoLabel(bloco.tipo)}
-      </span>
-      <p className="plano-conteudo" style={{ fontSize: '12px', fontWeight: 500 }}>
-        {bloco.titulo}
-      </p>
-      <p className="plano-conteudo" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-        {bloco.conteudo}
-      </p>
-    </div>
-  ))}
-</div>
+              {/* Manhã - 3 blocos */}
+              <div className="plano-bloco" style={{ borderLeft: `3px solid ${corBloco(dia.manha.tipo)}` }}>
+                <div className="plano-bloco-header">
+                  <span className="plano-bloco-label">Manhã (3h)</span>
+                  <button className="btn-outline btn-xs" onClick={() => setEditando({ dateStr: dia.date, conteudo: dia.manha.conteudo })}>
+                    <Edit size={12} style={{ display: 'inline', marginRight: 4 }} /> Editar
+                  </button>
+                </div>
+                
+                {dia.manha.blocos && dia.manha.blocos.map((bloco, index) => (
+                  <div key={index} style={{ 
+                    padding: '6px 10px',
+                    marginBottom: '6px',
+                    background: 'var(--bg-card)',
+                    borderRadius: '4px',
+                    borderLeft: `3px solid ${corBloco(bloco.tipo)}`
+                  }}>
+                    <span className="plano-tipo" style={{ color: corBloco(bloco.tipo), fontSize: '10px' }}>
+                      {tipoLabel(bloco.tipo)}
+                    </span>
+                    <p className="plano-conteudo" style={{ fontSize: '12px', fontWeight: 500 }}>
+                      {bloco.titulo}
+                    </p>
+                    <p className="plano-conteudo" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                      {bloco.conteudo}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
               {/* Tarde - Aula presencial ou livre */}
               {dia.aula ? (
