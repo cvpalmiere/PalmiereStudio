@@ -52,16 +52,34 @@ export default function Configuracoes({ config, setConfig, mostrarNotificacao })
           <input className="config-input" value={form.nome} onChange={e => upd('nome', e.target.value)} />
         </div>
 
-        <div className="card config-secao">
-          <h3 className="config-titulo">Estudo livre (1h)</h3>
-          <label className="config-label">Curso</label>
-          <input className="config-input" value={form.estudoLivre} onChange={e => upd('estudoLivre', e.target.value)} />
-          <label className="config-label" style={{marginTop:12}}>Módulo atual (Cisco Ethical Hacker)</label>
-          <select className="filtro-select config-select" value={form.cc50Modulo} onChange={e => upd('cc50Modulo', e.target.value)}>
-            {nomesModulos.map(m => <option key={m} value={m}>{m}</option>)}
-          </select>
-        </div>
-
+<div className="card config-secao">
+  <h3 className="config-titulo">Cursos Extras (Bloco 3 da Manhã)</h3>
+  <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '12px' }}>
+    Seus cursos extras já estão definidos para cada dia da semana.
+  </p>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+    <div style={{ background: 'var(--bg-card-2)', padding: '8px 12px', borderRadius: '6px' }}>
+      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Segunda</span>
+      <p style={{ fontSize: '13px' }}>Java (Coddy)</p>
+    </div>
+    <div style={{ background: 'var(--bg-card-2)', padding: '8px 12px', borderRadius: '6px' }}>
+      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Terça</span>
+      <p style={{ fontSize: '13px' }}>SQL (Coddy)</p>
+    </div>
+    <div style={{ background: 'var(--bg-card-2)', padding: '8px 12px', borderRadius: '6px' }}>
+      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quarta</span>
+      <p style={{ fontSize: '13px' }}>Java (Certificado)</p>
+    </div>
+    <div style={{ background: 'var(--bg-card-2)', padding: '8px 12px', borderRadius: '6px' }}>
+      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quinta</span>
+      <p style={{ fontSize: '13px' }}>HTML/CSS/JS (Coddy)</p>
+    </div>
+    <div style={{ background: 'var(--bg-card-2)', padding: '8px 12px', borderRadius: '6px', gridColumn: 'span 2' }}>
+      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Sexta</span>
+      <p style={{ fontSize: '13px' }}>Java (Coddy)</p>
+    </div>
+  </div>
+</div>
         <div className="card config-secao">
           <h3 className="config-titulo">Aparência</h3>
           <label className="config-label">Tamanho da fonte</label>
