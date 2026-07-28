@@ -87,68 +87,95 @@ export function gerarBlocoManha(dateStr, eventos) {
   const date = parseDate(dateStr);
   const diaSemana = date.getDay();
 
-  // 1. Prioridade máxima: provas em até 7 dias
-  const eventosProva = eventos.filter(e => {
-    if (e.concluido || e.tipo !== 'prova') return false;
-    const diff = diasRestantesStr(dateStr, e.data);
-    return diff >= 0 && diff <= 7;
-  }).sort((a, b) => a.data.localeCompare(b.data));
+  // ==========================================================
+  // BLOCO 1: PRÉ-AULA DA DISCIPLINA DO DIA (sempre 1h)
+  // ==========================================================
+  const aula = AULAS.find(a => a.data === dateStr);
+  const disc = aula ? getDisciplina(aula.disciplinaId) : null;
 
-  if (eventosProva.length > 0) {
-    if (eventosProva.length === 1) {
-      const ev = eventosProva[0];
-      const disc = getDisciplina(ev.disciplinaId);
-      return {
-        tipo: 'prova',
-        conteudo: `Revisão para ${ev.titulo} – ${disc.nome}`,
-        eventoId: ev.id,
-      };
-    }
-    const nomes = eventosProva.map(ev => {
-      const d = getDisciplina(ev.disciplinaId);
-      return `${ev.titulo} (${d.nome})`;
-    }).join(' e ');
-    return {
-      tipo: 'prova',
-      conteudo: `Divisão de tempo: revisão para ${nomes}`,
-      eventoId: eventosProva[0].id,
+  let bloco1;
+  if (aula && disc) {
+    bloco1 = {
+      tipo: 'pre_aula',
+      titulo: `Pré-aula ${disc.nome}`,
+      conteudo: aula.tema,
+      descricao: aula.conteudo,
+    };
+  } else {
+    const disciplinasDia = DISCIPLINAS.filter(d => d.diaSemana === diaSemana);
+    const nomeDisciplina = disciplinasDia.length > 0 ? disciplinasDia[0].nome : 'disciplina do dia';
+    bloco1 = {
+      tipo: 'pre_aula',
+      titulo: `Pré-aula ${nomeDisciplina}`,
+      conteudo: 'Revisão geral da matéria',
+      descricao: 'Sem aula presencial hoje, revise o conteúdo da disciplina.',
     };
   }
 
-  // 2. Trabalhos/seminários em até 7 dias
-  const eventosTrabalho = eventos.filter(e => {
-    if (e.concluido || e.tipo === 'prova') return false;
-    const alvoDate = e.prioridadeEstudo || e.data;
-    const diff = diasRestantesStr(dateStr, alvoDate);
-    const diffFinal = diasRestantesStr(dateStr, e.data);
-    return diffFinal >= 0 && diff <= 7 && diff >= 0;
+  // ==========================================================
+  // BLOCO 2: TRABALHO/PROVA OU MAIS PRÉ-AULA (1h)
+  // ==========================================================
+  
+  // Verifica se tem algum evento (prova ou trabalho) nos próximos 30 dias
+  const eventosProximos = eventos.filter(e => {
+    if (e.concluido) return false;
+    const diff = diasRestantesStr(dateStr, e.data);
+    return diff >= 0 && diff <= 30; // 1 mês
   }).sort((a, b) => a.data.localeCompare(b.data));
 
-  if (eventosTrabalho.length > 0) {
-    const ev = eventosTrabalho[0];
-    const disc = getDisciplina(ev.disciplinaId);
-    return {
-      tipo: 'trabalho',
-      conteudo: `Preparação para ${ev.titulo} – ${disc.nome}`,
+  let bloco2;
+  if (eventosProximos.length > 0) {
+    const ev = eventosProximos[0];
+    const discEv = getDisciplina(ev.disciplinaId);
+    const tipoLabel = ev.tipo === 'prova' ? 'Prova' : 'Trabalho';
+    const dias = diasRestantesStr(dateStr, ev.data);
+    
+    bloco2 = {
+      tipo: ev.tipo,
+      titulo: `${tipoLabel}: ${ev.titulo}`,
+      conteudo: ev.titulo,
+      descricao: `Entrega em ${dias} dias (${discEv?.nome})`,
       eventoId: ev.id,
     };
-  }
-
-  // 3. Aula no dia → pré-aula
-  const aula = AULAS.find(a => a.data === dateStr);
-  if (aula) {
-    const disc = getDisciplina(aula.disciplinaId);
-    return {
-      tipo: 'pre_aula',
-      conteudo: `Pré-aula ${disc.nome}: ${aula.conteudo}`,
-      aulaId: aula.id,
+  } else {
+    // Sem trabalhos/provas → mais pré-aula da disciplina do dia
+    const discNome = disc ? disc.nome : 'matéria do dia';
+    bloco2 = {
+      tipo: 'revisao',
+      titulo: `Revisão de ${discNome}`,
+      conteudo: `Aprofundamento em ${discNome}`,
+      descricao: 'Reforce o conteúdo da aula de hoje',
     };
   }
 
-  // 4. Fallback
+  // ==========================================================
+  // BLOCO 3: CURSO EXTRA (1h) - usa o mapa do dados.js
+  // ==========================================================
+  const cursosExtras = {
+    1: 'Java (Coddy)',
+    2: 'SQL (Coddy)',
+    3: 'Java (Curso com certificado)',
+    4: 'HTML/CSS/JS (Coddy)',
+    5: 'Java (Coddy)',
+  };
+
+  const bloco3 = {
+    tipo: 'extra',
+    titulo: 'Curso Extra',
+    conteudo: cursosExtras[diaSemana] || 'Curso livre',
+    descricao: 'Aprofundamento em tecnologia',
+  };
+
+  // ==========================================================
+  // RETORNO
+  // ==========================================================
   return {
-    tipo: 'livre',
-    conteudo: 'Revisão geral ou leitura complementar',
+    blocos: [bloco1, bloco2, bloco3],
+    // Compatibilidade com sistema antigo
+    tipo: bloco2.tipo === 'prova' ? 'prova' : bloco1.tipo,
+    conteudo: `${bloco1.titulo}: ${bloco1.conteudo} | ${bloco2.titulo}: ${bloco2.conteudo} | ${bloco3.titulo}: ${bloco3.conteudo}`,
+    aulaId: aula?.id,
+    eventoId: bloco2.eventoId,
   };
 }
 
