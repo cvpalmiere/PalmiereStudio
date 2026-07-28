@@ -1,4 +1,4 @@
-import { AULAS, EVENTOS_INICIAIS, DISCIPLINAS } from './dados.js';
+import { AULAS, EVENTOS_INICIAIS, DISCIPLINAS, MODULOS_CYBER } from './dados.js';
 
 // ── Formatação de datas ──────────────────────────────────────
 
@@ -87,9 +87,6 @@ export function gerarBlocoManha(dateStr, eventos) {
   const date = parseDate(dateStr);
   const diaSemana = date.getDay();
 
-  // Já não temos mais EAD (Bootcamp/Fundamentos) no 2º semestre
-  // Todas as disciplinas são presenciais
-
   // 1. Prioridade máxima: provas em até 7 dias
   const eventosProva = eventos.filter(e => {
     if (e.concluido || e.tipo !== 'prova') return false;
@@ -118,7 +115,7 @@ export function gerarBlocoManha(dateStr, eventos) {
     };
   }
 
-  // 2. Trabalhos/seminários em até 7 dias (usando prioridadeEstudo)
+  // 2. Trabalhos/seminários em até 7 dias
   const eventosTrabalho = eventos.filter(e => {
     if (e.concluido || e.tipo === 'prova') return false;
     const alvoDate = e.prioridadeEstudo || e.data;
@@ -161,10 +158,8 @@ export function gerarBlocoNoturno(dateStr, eventos) {
   const date = parseDate(dateStr);
   const diaSemana = date.getDay();
 
-  // Só funciona nas sextas (dia 5)
   if (diaSemana !== 5) return null;
 
-  // Verifica se tem prova próxima (para sugerir revisão)
   const eventosProva = eventos.filter(e => {
     if (e.concluido || e.tipo !== 'prova') return false;
     const diff = diasRestantesStr(dateStr, e.data);
@@ -181,7 +176,6 @@ export function gerarBlocoNoturno(dateStr, eventos) {
     };
   }
 
-  // Verifica se tem trabalho próximo
   const eventosTrabalho = eventos.filter(e => {
     if (e.concluido || e.tipo === 'prova') return false;
     const alvoDate = e.prioridadeEstudo || e.data;
@@ -200,7 +194,6 @@ export function gerarBlocoNoturno(dateStr, eventos) {
     };
   }
 
-  // Fallback: estudo livre noturno
   return {
     titulo: 'Estudo Livre Noturno',
     conteudo: 'Tempo livre para organizar materiais, revisar anotações ou estudar temas de interesse',
@@ -209,7 +202,7 @@ export function gerarBlocoNoturno(dateStr, eventos) {
 }
 
 export function gerarDiasUteisDoSemestre() {
-  const inicio = parseDate('2026-07-27'); // 2º semestre
+  const inicio = parseDate('2026-07-27');
   const fim = parseDate('2026-12-18');
   const dias = [];
   const cur = new Date(inicio);
@@ -271,4 +264,122 @@ export function corBloco(tipo) {
     livre: '#7A8B6E',
   };
   return map[tipo] || '#888';
+}
+
+// ============================================================
+// PLANO DE ESTUDO DO CURSO CISCO ETHICAL HACKER
+// ============================================================
+
+/**
+ * Gera o plano de estudo diário para o curso de Cibersegurança
+ * Baseado em: 1 hora por dia, 5 dias por semana, 16 semanas
+ */
+export function gerarPlanoCyber() {
+  const planoSemanal = [];
+  const dataInicio = new Date('2026-08-03');
+  let semanaAtual = 0;
+
+  MODULOS_CYBER.forEach(modulo => {
+    for (let s = 0; s < modulo.semanas; s++) {
+      const semana = {
+        modulo: modulo.nome,
+        numero: semanaAtual + 1,
+        dias: []
+      };
+
+      const topicos = modulo.topicos;
+      const diasTeoria = [0, 1, 2];
+      const diasPratica = [3, 4];
+
+      diasTeoria.forEach((diaIdx, i) => {
+        const idx = i * 2;
+        const topico1 = topicos[idx] || topicos[topicos.length - 1];
+        const topico2 = topicos[idx + 1] || null;
+        const data = new Date(dataInicio);
+        data.setDate(data.getDate() + (semanaAtual * 7) + diaIdx);
+
+        semana.dias.push({
+          data: formatDateISO(data),
+          diaSemana: ['Segunda', 'Terça', 'Quarta'][i],
+          tipo: 'teoria',
+          conteudo: topico1,
+          conteudoExtra: topico2,
+          modulo: modulo.nome,
+          duracao: '1h (teoria)'
+        });
+      });
+
+      diasPratica.forEach((diaIdx, i) => {
+        const data = new Date(dataInicio);
+        data.setDate(data.getDate() + (semanaAtual * 7) + diaIdx);
+
+        const topicoPratica = topicos[i * 3 + 1] || topicos[0];
+        semana.dias.push({
+          data: formatDateISO(data),
+          diaSemana: ['Quinta', 'Sexta'][i],
+          tipo: 'pratica',
+          conteudo: `Prática: ${topicoPratica}`,
+          conteudoExtra: 'Laboratório / Exercícios',
+          modulo: modulo.nome,
+          duracao: '1h (prática)'
+        });
+      });
+
+      semana.dias.sort((a, b) => a.data.localeCompare(b.data));
+      planoSemanal.push(semana);
+      semanaAtual++;
+    }
+  });
+
+  return planoSemanal;
+}
+
+/**
+ * Retorna o conteúdo de estudo para HOJE (1 hora)
+ */
+export function getEstudoCyberHoje(planos) {
+  const hoje = hojeISO();
+  for (const semana of planos) {
+    for (const dia of semana.dias) {
+      if (dia.data === hoje) {
+        return {
+          modulo: dia.modulo,
+          tipo: dia.tipo,
+          conteudo: dia.conteudo,
+          extra: dia.conteudoExtra || null,
+          duracao: dia.duracao
+        };
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Retorna o conteúdo de estudo para UMA DATA ESPECÍFICA
+ */
+export function getEstudoCyberPorData(planos, dataStr) {
+  for (const semana of planos) {
+    for (const dia of semana.dias) {
+      if (dia.data === dataStr) {
+        return dia;
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Retorna a semana atual do curso Cyber
+ */
+export function getSemanaCyberAtual(planos) {
+  const hoje = hojeISO();
+  for (const semana of planos) {
+    for (const dia of semana.dias) {
+      if (dia.data === hoje) {
+        return `Semana ${semana.numero} – ${semana.modulo}`;
+      }
+    }
+  }
+  return 'Curso concluído ou não iniciado';
 }
