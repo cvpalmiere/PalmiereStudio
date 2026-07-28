@@ -9,7 +9,8 @@ import {
 } from 'lucide-react';
 import {
   hojeISO, formatDateBR, gerarBlocoManha, gerarBlocoNoturno,
-  getProximosPrazos, diasRestantes, tipoLabel, corBloco, getDisciplina
+  getProximosPrazos, diasRestantes, tipoLabel, corBloco, getDisciplina,
+  gerarPlanoCyber, getEstudoCyberHoje
 } from './plano.js';
 import { AULAS } from './dados.js';
 
@@ -46,6 +47,10 @@ export default function Hoje({
 
   const proximos = useMemo(() => getProximosPrazos(eventos, 3), [eventos]);
   const estudouHoje = estudosConcluidos[hoje] || false;
+
+  // Plano do curso Cisco Ethical Hacker
+  const planosCyber = useMemo(() => gerarPlanoCyber(), []);
+  const estudoCyber = useMemo(() => getEstudoCyberHoje(planosCyber), [planosCyber]);
 
   return (
     <div className="aba-container">
@@ -111,15 +116,33 @@ export default function Hoje({
             </div>
           )}
 
-          {/* Estudo Livre (30min) */}
+          {/* Estudo Livre - Cisco Ethical Hacker (1h) */}
           <div className="card card-livre">
             <div className="card-header">
               <span className="card-tag" style={{ background: '#7A8B6E' }}>
-                <BookOpen size={14} style={{ display: 'inline', marginRight: 6 }} /> Estudo Livre (30min)
+                <BookOpen size={14} style={{ display: 'inline', marginRight: 6 }} /> 
+                Cisco Ethical Hacker (1h)
               </span>
             </div>
-            <p className="card-conteudo">{config.estudoLivre}</p>
-            <p className="card-sub">{config.cc50Modulo}</p>
+            <p className="card-conteudo">
+              <strong>{config.cc50Modulo}</strong>
+            </p>
+            <p className="card-desc">
+              {estudoCyber ? (
+                <>
+                  <span className="tipo-badge">{estudoCyber.tipo === 'teoria' ? '📖 Teoria' : '💻 Prática'}</span>
+                  <span style={{ display: 'block', marginTop: 4, fontSize: 14, color: '#C9A8AC' }}>
+                    {estudoCyber.conteudo}
+                    {estudoCyber.extra && <span style={{ display: 'block', fontSize: 12, color: '#A88085' }}>{estudoCyber.extra}</span>}
+                  </span>
+                </>
+              ) : (
+                'Curso concluído ou pausado'
+              )}
+            </p>
+            <p className="card-sub" style={{ marginTop: 8, fontSize: 11, color: '#A88085' }}>
+              {estudoCyber ? `⏱ ${estudoCyber.duracao}` : '⏱ 1h diária'}
+            </p>
           </div>
         </div>
 
