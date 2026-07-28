@@ -208,7 +208,7 @@ export const EVENTOS_INICIAIS = [
 // MÓDULOS DOS CURSOS EXTRAS (substitui o CC50/Cyber)
 // ============================================================
 
-export const MODULOS_EXTRAS = {
+export const CURSOS_EXTRAS = {
   segunda: 'Java (Coddy)',
   terca: 'SQL (Coddy)',
   quarta: 'Java (Curso com certificado)',
@@ -216,7 +216,6 @@ export const MODULOS_EXTRAS = {
   sexta: 'Java (Coddy)',
 };
 
-// Se quiser manter uma lista para o dropdown das configs:
 export const CURSOS_EXTRAS_LISTA = [
   'Java (Coddy)',
   'SQL (Coddy)',
