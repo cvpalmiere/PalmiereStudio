@@ -51,12 +51,12 @@ export const DISCIPLINAS = [
 ];
 
 // ============================================================
-// AULAS
+// AULAS - 2º SEMESTRE
 // ============================================================
 
 export const AULAS = [
   // =========================================================
-  // PROGRAMAÇÃO ORIENTADA A OBJETOS (segundas)
+  // PROGRAMAÇÃO ORIENTADA A OBJETOS (segundas) - 17 aulas
   // =========================================================
   { id: 'poo_1', disciplinaId: 'poo', data: '2026-07-27', tema: 'Apresentação da Disciplina', conteudo: 'Plano de ensino, metodologia, avaliação', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'poo_2', disciplinaId: 'poo', data: '2026-08-03', tema: 'Linguagem de Programação', conteudo: 'Características, tipos, classificações, critérios de avaliação e principais paradigmas', estrategia: 'Expositiva', preparacao: 'Pesquisar paradigmas de programação', avaliacao: '' },
@@ -77,7 +77,7 @@ export const AULAS = [
   { id: 'poo_17', disciplinaId: 'poo', data: '2026-12-14', tema: 'Encerramento', conteudo: 'Resultados finais e encerramento', estrategia: 'Discussão', preparacao: '', avaliacao: '' },
 
   // =========================================================
-  // ENGENHARIA DE REQUISITOS (terças)
+  // ENGENHARIA DE REQUISITOS (terças) - 20 aulas
   // =========================================================
   { id: 'req_1', disciplinaId: 'req', data: '2026-07-28', tema: 'Apresentação da Disciplina', conteudo: 'Plano de ensino e comentários da disciplina', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'req_2', disciplinaId: 'req', data: '2026-08-04', tema: 'Visão Geral da Engenharia de Requisitos', conteudo: 'Motivação e benefícios, exemplos, exercícios', estrategia: 'Expositiva', preparacao: 'Pesquisar sobre ER', avaliacao: '' },
@@ -101,7 +101,7 @@ export const AULAS = [
   { id: 'req_20', disciplinaId: 'req', data: '2026-12-15', tema: 'Seminário - TCD', conteudo: 'Apresentação do Trabalho de Conclusão da Disciplina', estrategia: 'Seminário', preparacao: 'Preparar apresentação', avaliacao: 'TCD - Projeto Final' },
 
   // =========================================================
-  // BANCO DE DADOS II (quartas)
+  // BANCO DE DADOS II (quartas) - 20 aulas
   // =========================================================
   { id: 'bd2_1', disciplinaId: 'bd2', data: '2026-07-29', tema: 'Apresentação da Disciplina', conteudo: 'Abertura, motivação, revisão de modelagem, introdução ao BD', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'bd2_2', disciplinaId: 'bd2', data: '2026-08-05', tema: 'Tópicos Avançados de Modelagem de Dados', conteudo: 'Projeto de BD, fundamentos, administração, política de segurança', estrategia: 'Expositiva + debate', preparacao: 'Revisar modelagem ER', avaliacao: 'Exercício conceitual' },
@@ -125,7 +125,7 @@ export const AULAS = [
   { id: 'bd2_20', disciplinaId: 'bd2', data: '2026-12-09', tema: 'Encerramento', conteudo: 'Divulgação de notas, solução de dúvidas, resultados finais', estrategia: 'Expositiva', preparacao: '', avaliacao: '' },
 
   // =========================================================
-  // ÁLGEBRA LINEAR E GEOMETRIA ANALÍTICA (quintas)
+  // ÁLGEBRA LINEAR E GEOMETRIA ANALÍTICA (quintas) - 20 aulas
   // =========================================================
   { id: 'alga_1', disciplinaId: 'alga', data: '2026-07-30', tema: 'Apresentação da Disciplina', conteudo: 'Plano de ensino, metodologia, avaliação', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'alga_2', disciplinaId: 'alga', data: '2026-08-06', tema: 'Matrizes e Sistemas Lineares', conteudo: 'Operações com matrizes, sistemas lineares, escalonamento', estrategia: 'Expositiva + exercícios', preparacao: 'Revisar matrizes', avaliacao: 'Exercícios' },
@@ -149,7 +149,7 @@ export const AULAS = [
   { id: 'alga_20', disciplinaId: 'alga', data: '2026-12-17', tema: 'Encerramento', conteudo: 'Resultados finais, encerramento', estrategia: 'Discussão', preparacao: '', avaliacao: '' },
 
   // =========================================================
-  // DESENVOLVIMENTO DE INTERFACES (sextas)
+  // DESENVOLVIMENTO DE INTERFACES (sextas) - 20 aulas
   // =========================================================
   { id: 'di_1', disciplinaId: 'di', data: '2026-07-31', tema: 'Apresentação da Disciplina', conteudo: 'Apresentação da disciplina, uso de IA no curso, apresentações iniciais', estrategia: 'Expositiva', preparacao: 'Ler plano de ensino', avaliacao: '' },
   { id: 'di_2', disciplinaId: 'di', data: '2026-08-07', tema: 'Outros', conteudo: 'Apresentação de tópicos do curso com uso de IA', estrategia: 'Projeto baseado em projetos', preparacao: 'Pesquisar IA em desenvolvimento', avaliacao: '' },
@@ -178,47 +178,175 @@ export const AULAS = [
 // ============================================================
 
 export const EVENTOS_INICIAIS = [
-  // --- POO ---
+  // POO
   { id: 'ev_poo_p1', disciplinaId: 'poo', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-14', prioridadeEstudo: null, concluido: false },
   { id: 'ev_poo_p2', disciplinaId: 'poo', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-11-16', prioridadeEstudo: null, concluido: false },
   { id: 'ev_poo_p3', disciplinaId: 'poo', tipo: 'prova', titulo: 'Prova 3 – 3º Bimestre', data: '2026-12-07', prioridadeEstudo: null, concluido: false },
 
-  // --- Engenharia de Requisitos ---
+  // Engenharia de Requisitos
   { id: 'ev_req_p1', disciplinaId: 'req', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-15', prioridadeEstudo: null, concluido: false },
   { id: 'ev_req_p2', disciplinaId: 'req', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-11-24', prioridadeEstudo: null, concluido: false },
   { id: 'ev_req_tcd', disciplinaId: 'req', tipo: 'seminario', titulo: 'TCD – Trabalho de Conclusão da Disciplina', data: '2026-12-15', prioridadeEstudo: '2026-12-08', concluido: false },
   { id: 'ev_req_ace', disciplinaId: 'req', tipo: 'trabalho', titulo: 'ACE – Atividades Curriculares de Extensão', data: '2026-12-15', prioridadeEstudo: '2026-12-01', concluido: false },
 
-  // --- Banco de Dados II ---
+  // Banco de Dados II
   { id: 'ev_bd2_p1', disciplinaId: 'bd2', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-23', prioridadeEstudo: null, concluido: false },
   { id: 'ev_bd2_p2', disciplinaId: 'bd2', tipo: 'prova', titulo: 'Prova 2 – SQL Prático', data: '2026-12-02', prioridadeEstudo: null, concluido: false },
 
-  // --- Álgebra Linear e GA ---
+  // Álgebra Linear e GA
   { id: 'ev_alga_p1', disciplinaId: 'alga', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-09-17', prioridadeEstudo: null, concluido: false },
   { id: 'ev_alga_p2', disciplinaId: 'alga', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-11-12', prioridadeEstudo: null, concluido: false },
   { id: 'ev_alga_p3', disciplinaId: 'alga', tipo: 'prova', titulo: 'Prova 3 – 3º Bimestre', data: '2026-12-10', prioridadeEstudo: null, concluido: false },
 
-  // --- Desenvolvimento de Interfaces ---
+  // Desenvolvimento de Interfaces
   { id: 'ev_di_p1', disciplinaId: 'di', tipo: 'prova', titulo: 'Prova 1 – 1º Bimestre', data: '2026-10-02', prioridadeEstudo: null, concluido: false },
   { id: 'ev_di_p2', disciplinaId: 'di', tipo: 'prova', titulo: 'Prova 2 – 2º Bimestre', data: '2026-12-11', prioridadeEstudo: null, concluido: false },
   { id: 'ev_di_proj', disciplinaId: 'di', tipo: 'trabalho', titulo: 'Projeto Final – Interface Front-end', data: '2026-12-04', prioridadeEstudo: '2026-11-27', concluido: false },
 ];
 
 // ============================================================
-// MÓDULOS DE CIBERSEGURANÇA (estudo livre - substitui CC50)
+// MÓDULOS DO CURSO CISCO ETHICAL HACKER (estudo livre - 1h/dia)
 // ============================================================
 
 export const MODULOS_CYBER = [
-  'Módulo 1 – Introdução à Cibersegurança',
-  'Módulo 2 – Fundamentos de Redes e Protocolos',
-  'Módulo 3 – Criptografia e Segurança da Informação',
-  'Módulo 4 – Segurança em Sistemas Operacionais',
-  'Módulo 5 – Análise de Vulnerabilidades',
-  'Módulo 6 – Testes de Invasão (Pentest) - Conceitos',
-  'Módulo 7 – Firewalls e Controles de Acesso',
-  'Módulo 8 – Resposta a Incidentes e Forense Digital',
-  'Módulo 9 – Segurança em Aplicações Web',
-  'Módulo 10 – Engenharia Social e Aspectos Legais',
-  'Módulo 11 – Certificações e Mercado de Trabalho',
-  'Módulo 12 – Projeto Prático de Cibersegurança',
+  {
+    id: 'mod1',
+    nome: 'Módulo 1 – Introdução ao Hacking Ético e Testes de Penetração',
+    semanas: 2,
+    topicos: [
+      '1.0.1 Por que devo fazer este módulo?',
+      '1.0.2 O que aprenderei neste módulo?',
+      '1.1 Entendendo hacking ético e testes de penetração',
+      '1.2 Explorando metodologias de teste de penetração',
+      '1.3 Construindo seu próprio laboratório',
+      '1.4 Resumo'
+    ]
+  },
+  {
+    id: 'mod2',
+    nome: 'Módulo 2 – Planejamento e Escopo de Avaliação de Pentest',
+    semanas: 1,
+    topicos: [
+      '2.0 Introdução',
+      '2.1 Conceitos de governança, risco e conformidade',
+      '2.2 Importância do escopo e necessidades organizacionais',
+      '2.3 Mentalidade de hacking ético e profissionalismo',
+      '2.4 Resumo'
+    ]
+  },
+  {
+    id: 'mod3',
+    nome: 'Módulo 3 – Coleta de Informações e Varredura de Vulnerabilidades',
+    semanas: 2,
+    topicos: [
+      '3.0 Introdução',
+      '3.1 Reconhecimento Passivo',
+      '3.2 Reconhecimento Ativo',
+      '3.3 Verificações de vulnerabilidade',
+      '3.4 Análise de resultados de varredura',
+      '3.5 Resumo'
+    ]
+  },
+  {
+    id: 'mod4',
+    nome: 'Módulo 4 – Ataques de Engenharia Social',
+    semanas: 1,
+    topicos: [
+      '4.0 Introdução',
+      '4.1 Pretexting e Impersonação',
+      '4.2 Ataques de engenharia social',
+      '4.3 Ataques físicos',
+      '4.4 Ferramentas de engenharia social',
+      '4.5 Métodos de Influência',
+      '4.6 Resumo'
+    ]
+  },
+  {
+    id: 'mod5',
+    nome: 'Módulo 5 – Exploração de Redes Cabadas e Sem Fio',
+    semanas: 2,
+    topicos: [
+      '5.0 Introdução',
+      '5.1 Exploração de Vulnerabilidades Baseadas em Rede',
+      '5.2 Explorando vulnerabilidades sem fio',
+      '5.3 Resumo'
+    ]
+  },
+  {
+    id: 'mod6',
+    nome: 'Módulo 6 – Exploração de Vulnerabilidades em Aplicações',
+    semanas: 3,
+    topicos: [
+      '6.0 Introdução',
+      '6.1 OWASP Top 10',
+      '6.2 Construindo laboratório de aplicações Web',
+      '6.3 Falhas de Lógica de Negócios',
+      '6.4 Vulnerabilidades de Injeção (SQL Injection)',
+      '6.5 Vulnerabilidades de Autenticação',
+      '6.6 Vulnerabilidades de Autorização',
+      '6.7 Cross-Site Scripting (XSS)',
+      '6.8 CSRF/XSRF e Server-Side Request Forgery',
+      '6.9 Clickjacking',
+      '6.10 Falhas de Configurações de Segurança',
+      '6.11 Vulnerabilidades de Inclusão de Arquivos',
+      '6.12 Práticas de Código Inseguro',
+      '6.13 Resumo'
+    ]
+  },
+  {
+    id: 'mod7',
+    nome: 'Módulo 7 – Segurança em Nuvem, Mobile e IoT',
+    semanas: 1,
+    topicos: [
+      '7.0 Introdução',
+      '7.1 Ataques em tecnologias de nuvem',
+      '7.2 Ataques contra sistemas especializados',
+      '7.3 Resumo'
+    ]
+  },
+  {
+    id: 'mod8',
+    nome: 'Módulo 8 – Técnicas de Pós-Exploração',
+    semanas: 1,
+    topicos: [
+      '8.0 Introdução',
+      '8.1 Persistência após comprometer um sistema',
+      '8.2 Movimento lateral, evasão e enumeração',
+      '8.3 Resumo'
+    ]
+  },
+  {
+    id: 'mod9',
+    nome: 'Módulo 9 – Relatórios e Comunicação',
+    semanas: 1,
+    topicos: [
+      '9.0 Introdução',
+      '9.1 Componentes de relatórios escritos',
+      '9.2 Análise e recomendação de remediação',
+      '9.3 Comunicação durante o processo',
+      '9.4 Atividades pós-entrega',
+      '9.5 Resumo'
+    ]
+  },
+  {
+    id: 'mod10',
+    nome: 'Módulo 10 – Ferramentas e Análise de Código',
+    semanas: 1,
+    topicos: [
+      '10.0 Introdução',
+      '10.1 Conceitos de scripts e desenvolvimento de software',
+      '10.2 Ferramentas de pentest e análise de código de exploit',
+      '10.3 Resumo'
+    ]
+  },
+  {
+    id: 'mod_final',
+    nome: '🎯 Projeto Final + Exame do Curso',
+    semanas: 1,
+    topicos: [
+      'Revisão Geral do Curso',
+      'Projeto Final – Captura de Bandeira (CTF)',
+      'Exame Final do Curso de Hacker Ético',
+    ]
+  }
 ];
