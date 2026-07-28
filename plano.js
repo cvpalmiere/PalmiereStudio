@@ -1,4 +1,4 @@
-import { AULAS, EVENTOS_INICIAIS, DISCIPLINAS, MODULOS_CYBER } from './dados.js';
+import { AULAS, EVENTOS_INICIAIS, DISCIPLINAS } from './dados.js';
 
 // ── Formatação de datas ──────────────────────────────────────
 
@@ -83,6 +83,8 @@ function getWeekNumber(date) {
   return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
 }
 
+// ── BLOCO DA MANHÃ (3h) ─────────────────────────────────────
+
 export function gerarBlocoManha(dateStr, eventos) {
   const date = parseDate(dateStr);
   const diaSemana = date.getDay();
@@ -149,7 +151,7 @@ export function gerarBlocoManha(dateStr, eventos) {
   }
 
   // ==========================================================
-  // BLOCO 3: CURSO EXTRA (1h) - usa o mapa do dados.js
+  // BLOCO 3: CURSO EXTRA (1h)
   // ==========================================================
   const cursosExtras = {
     1: 'Java (Coddy)',
@@ -171,7 +173,6 @@ export function gerarBlocoManha(dateStr, eventos) {
   // ==========================================================
   return {
     blocos: [bloco1, bloco2, bloco3],
-    // Compatibilidade com sistema antigo
     tipo: bloco2.tipo === 'prova' ? 'prova' : bloco1.tipo,
     conteudo: `${bloco1.titulo}: ${bloco1.conteudo} | ${bloco2.titulo}: ${bloco2.conteudo} | ${bloco3.titulo}: ${bloco3.conteudo}`,
     aulaId: aula?.id,
@@ -179,7 +180,7 @@ export function gerarBlocoManha(dateStr, eventos) {
   };
 }
 
-// ── Estudo noturno (sextas) ──────────────────────────────────
+// ── BLOCO NOTURNO (sextas) ──────────────────────────────────
 
 export function gerarBlocoNoturno(dateStr, eventos) {
   const date = parseDate(dateStr);
@@ -228,6 +229,8 @@ export function gerarBlocoNoturno(dateStr, eventos) {
   };
 }
 
+// ── DIAS ÚTEIS DO SEMESTRE ─────────────────────────────────
+
 export function gerarDiasUteisDoSemestre() {
   const inicio = parseDate('2026-07-27');
   const fim = parseDate('2026-12-18');
@@ -242,6 +245,8 @@ export function gerarDiasUteisDoSemestre() {
   }
   return dias;
 }
+
+// ── GERAR SEMANA ─────────────────────────────────────────────
 
 export function gerarSemana(dataInicio, eventos, edicoes = {}) {
   const semana = [];
@@ -263,6 +268,8 @@ export function gerarSemana(dataInicio, eventos, edicoes = {}) {
   }
   return semana;
 }
+
+// ── LABELS E CORES ───────────────────────────────────────────
 
 export function tipoLabel(tipo) {
   const map = {
@@ -295,122 +302,4 @@ export function corBloco(tipo) {
     livre: '#7A8B6E',
   };
   return map[tipo] || '#888';
-}
-
-// ============================================================
-// PLANO DE ESTUDO DO CURSO CISCO ETHICAL HACKER
-// ============================================================
-
-/**
- * Gera o plano de estudo diário para o curso de Cibersegurança
- * Baseado em: 1 hora por dia, 5 dias por semana, 16 semanas
- */
-export function gerarPlanoCyber() {
-  const planoSemanal = [];
-  const dataInicio = new Date('2026-08-03');
-  let semanaAtual = 0;
-
-  MODULOS_CYBER.forEach(modulo => {
-    for (let s = 0; s < modulo.semanas; s++) {
-      const semana = {
-        modulo: modulo.nome,
-        numero: semanaAtual + 1,
-        dias: []
-      };
-
-      const topicos = modulo.topicos;
-      const diasTeoria = [0, 1, 2];
-      const diasPratica = [3, 4];
-
-      diasTeoria.forEach((diaIdx, i) => {
-        const idx = i * 2;
-        const topico1 = topicos[idx] || topicos[topicos.length - 1];
-        const topico2 = topicos[idx + 1] || null;
-        const data = new Date(dataInicio);
-        data.setDate(data.getDate() + (semanaAtual * 7) + diaIdx);
-
-        semana.dias.push({
-          data: formatDateISO(data),
-          diaSemana: ['Segunda', 'Terça', 'Quarta'][i],
-          tipo: 'teoria',
-          conteudo: topico1,
-          conteudoExtra: topico2,
-          modulo: modulo.nome,
-          duracao: '1h (teoria)'
-        });
-      });
-
-      diasPratica.forEach((diaIdx, i) => {
-        const data = new Date(dataInicio);
-        data.setDate(data.getDate() + (semanaAtual * 7) + diaIdx);
-
-        const topicoPratica = topicos[i * 3 + 1] || topicos[0];
-        semana.dias.push({
-          data: formatDateISO(data),
-          diaSemana: ['Quinta', 'Sexta'][i],
-          tipo: 'pratica',
-          conteudo: `Prática: ${topicoPratica}`,
-          conteudoExtra: 'Laboratório / Exercícios',
-          modulo: modulo.nome,
-          duracao: '1h (prática)'
-        });
-      });
-
-      semana.dias.sort((a, b) => a.data.localeCompare(b.data));
-      planoSemanal.push(semana);
-      semanaAtual++;
-    }
-  });
-
-  return planoSemanal;
-}
-
-/**
- * Retorna o conteúdo de estudo para HOJE (1 hora)
- */
-export function getEstudoCyberHoje(planos) {
-  const hoje = hojeISO();
-  for (const semana of planos) {
-    for (const dia of semana.dias) {
-      if (dia.data === hoje) {
-        return {
-          modulo: dia.modulo,
-          tipo: dia.tipo,
-          conteudo: dia.conteudo,
-          extra: dia.conteudoExtra || null,
-          duracao: dia.duracao
-        };
-      }
-    }
-  }
-  return null;
-}
-
-/**
- * Retorna o conteúdo de estudo para UMA DATA ESPECÍFICA
- */
-export function getEstudoCyberPorData(planos, dataStr) {
-  for (const semana of planos) {
-    for (const dia of semana.dias) {
-      if (dia.data === dataStr) {
-        return dia;
-      }
-    }
-  }
-  return null;
-}
-
-/**
- * Retorna a semana atual do curso Cyber
- */
-export function getSemanaCyberAtual(planos) {
-  const hoje = hojeISO();
-  for (const semana of planos) {
-    for (const dia of semana.dias) {
-      if (dia.data === hoje) {
-        return `Semana ${semana.numero} – ${semana.modulo}`;
-      }
-    }
-  }
-  return 'Curso concluído ou não iniciado';
 }
