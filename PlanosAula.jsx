@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DISCIPLINAS, AULAS } from './dados.js';
 import { formatDateBR } from './plano.js';
-import { CheckCircle, Circle, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function PlanosAula({ aulasAssistidas, marcarAulaAssistida }) {
   const [disciplinaAberta, setDisciplinaAberta] = useState('poo');
